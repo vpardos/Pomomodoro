@@ -16,6 +16,17 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Pomomodoro",
   description: "A simple Pomodoro timer to boost your productivity",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-16x16.png", sizes: "16x16" },
+      { url: "/favicon-32x32.png", sizes: "32x32" },
+      { url: "/favicon-dark.ico", sizes: "any", media: "(prefers-color-scheme: dark)" },
+      { url: "/favicon-16x16-dark.png", sizes: "16x16", media: "(prefers-color-scheme: dark)" },
+      { url: "/favicon-32x32-dark.png", sizes: "32x32", media: "(prefers-color-scheme: dark)" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({
