@@ -169,12 +169,12 @@ export default function Home() {
           <span className="text-sm text-muted-foreground transition-colors font-mono">
             2026 ©
             <a
-              href="https://github.com/vpardoss"
+              href="https://github.com/vpardos"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors font-mono"
             >
-              ‎ vpardoss
+              ‎ vpardos
             </a>
             , all rights reserved.
           </span>
