@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { cn } from '@/lib/utils';
 import { Phase } from '@/hooks/usePomodoro';
 
@@ -9,8 +10,7 @@ interface CircularProgressProps {
   timeLeft: number;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function CircularProgress({ progress, phase: _phase, timeLeft }: CircularProgressProps) {
+export const CircularProgress = React.memo(function CircularProgress({ progress, phase: _phase, timeLeft }: CircularProgressProps) {
   const radius = 120;
   const strokeWidth = 8;
   const normalizedRadius = radius - strokeWidth / 2;
@@ -34,7 +34,7 @@ export function CircularProgress({ progress, phase: _phase, timeLeft }: Circular
           cy={radius}
         />
         <circle
-          className={cn('transition-all duration-1000 ease-linear')}
+          className={cn('transition-[stroke-dashoffset] duration-1000 ease-linear')}
           stroke="var(--foreground)"
           fill="transparent"
           strokeWidth={strokeWidth}
@@ -47,10 +47,10 @@ export function CircularProgress({ progress, phase: _phase, timeLeft }: Circular
         />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-5xl sm:text-6xl font-bold text-foreground font-mono tabular-nums">
+        <span className="text-5xl min-[1024px]:text-6xl font-bold text-foreground font-mono tabular-nums">
           {timeStr}
         </span>
       </div>
     </div>
   );
-}
+});

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CircularProgress } from '@/components/circular-progress';
 import { LinearProgress } from '@/components/linear-progress';
@@ -12,7 +12,7 @@ interface TimerDisplayProps {
   timeLeft: number;
 }
 
-export function TimerDisplay({ progress, phase, timeLeft }: TimerDisplayProps) {
+export const TimerDisplay = React.memo(function TimerDisplay({ progress, phase, timeLeft }: TimerDisplayProps) {
   const [progressStyle, setProgressStyle] = useState<'circular' | 'linear'>('circular');
 
   return (
@@ -32,4 +32,4 @@ export function TimerDisplay({ progress, phase, timeLeft }: TimerDisplayProps) {
       </Tabs>
     </div>
   );
-}
+});

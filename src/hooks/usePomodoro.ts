@@ -77,7 +77,7 @@ export function usePomodoro(onPhaseChange?: (from: Phase, to: Phase) => void) {
   const [isRunning, setIsRunning] = useState(false);
   const [completedCycles, setCompletedCycles] = useState(0);
 
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const rafRef = useRef<number | null>(null);
   const lastTickRef = useRef<number>(0);
   const stateRef = useRef({ phase, completedCycles, settings, timeLeft });
   const onPhaseChangeRef = useRef(onPhaseChange);
@@ -110,38 +110,47 @@ export function usePomodoro(onPhaseChange?: (from: Phase, to: Phase) => void) {
   useEffect(() => {
     if (isRunning) {
       lastTickRef.current = Date.now();
-      intervalRef.current = setInterval(() => {
+      
+      const tick = () => {
         const now = Date.now();
         const delta = Math.floor((now - lastTickRef.current) / 1000);
-        lastTickRef.current = now;
-
-        const s = stateRef.current;
-        const newTime = Math.max(0, s.timeLeft - delta);
-        setTimeLeft(newTime);
-
-        if (newTime === 0) {
-          setIsRunning(false);
-          const { phase: nextPhase, cycles: newCycles } = getNextPhase(
-            s.phase,
-            s.completedCycles,
-            s.settings.longBreakInterval
-          );
-          onPhaseChangeRef.current?.(s.phase, nextPhase);
-          setPhase(nextPhase);
-          setCompletedCycles(newCycles);
-          setTimeLeft(getDurationForPhase(nextPhase, s.settings));
+        
+        if (delta > 0) {
+          lastTickRef.current += delta * 1000;
+          
+          const s = stateRef.current;
+          const newTime = Math.max(0, s.timeLeft - delta);
+          setTimeLeft(newTime);
+          
+          if (newTime === 0) {
+            setIsRunning(false);
+            const { phase: nextPhase, cycles: newCycles } = getNextPhase(
+              s.phase,
+              s.completedCycles,
+              s.settings.longBreakInterval
+            );
+            onPhaseChangeRef.current?.(s.phase, nextPhase);
+            setPhase(nextPhase);
+            setCompletedCycles(newCycles);
+            setTimeLeft(getDurationForPhase(nextPhase, s.settings));
+            return;
+          }
         }
-      }, 1000);
+        
+        rafRef.current = requestAnimationFrame(tick);
+      };
+      
+      rafRef.current = requestAnimationFrame(tick);
     } else {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
       }
     }
-
+    
     return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
       }
     };
   }, [isRunning]);

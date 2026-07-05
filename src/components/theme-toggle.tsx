@@ -20,7 +20,7 @@ export function ThemeToggle() {
     <Popover>
       <PopoverTrigger render={<Button variant="outline" size="sm" className="gap-2" />}>
         <Monitor className="size-4" />
-        <span className="hidden sm:inline">Theme</span>
+        <span className="hidden min-[1024px]:inline">Theme</span>
       </PopoverTrigger>
       <PopoverContent className="w-56" align="end">
         <div className="flex flex-col gap-2">

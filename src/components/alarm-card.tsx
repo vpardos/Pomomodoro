@@ -46,7 +46,7 @@ export function ScheduleCard({
   const [now, setNow] = useState(new Date());
 
   useEffect(() => {
-    const interval = setInterval(() => setNow(new Date()), 1000);
+    const interval = setInterval(() => setNow(new Date()), 15000);
     return () => clearInterval(interval);
   }, []);
 
@@ -61,7 +61,7 @@ export function ScheduleCard({
         </CardTitle>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col gap-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 min-[1024px]:grid-cols-2 gap-4">
           <div className="flex flex-col gap-1">
             <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
               Current Time

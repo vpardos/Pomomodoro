@@ -69,13 +69,13 @@ export default function Home() {
     <div className="flex flex-col flex-1 bg-background">
       <header className="border-b border-border bg-card">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <h1 className="text-xl sm:text-2xl font-medium text-foreground flex items-center">
+          <h1 className="text-xl min-[1024px]:text-2xl font-medium text-foreground flex items-center">
             Pomomodoro
-            <a className="hidden sm:inline text-sm text-muted-foreground transition-colors font-mono">
+            <a className="hidden min-[1024px]:inline text-sm text-muted-foreground transition-colors font-mono">
               ‎ | a simple pomodoro timer
             </a>
           </h1>
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 min-[1024px]:gap-3">
             <ThemeToggle />
             <PaletteSelector />
             <SettingsDialog

@@ -33,7 +33,7 @@ export function PaletteSelector() {
     <Popover>
       <PopoverTrigger render={<Button variant="outline" size="sm" className="gap-2" />}>
         <Palette className="size-4" />
-        <span className="hidden sm:inline">Color Palette</span>
+        <span className="hidden min-[1024px]:inline">Color Palette</span>
       </PopoverTrigger>
       <PopoverContent className="w-64" align="end">
         <div className="flex flex-col gap-2">

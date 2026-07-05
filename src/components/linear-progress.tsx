@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { cn } from '@/lib/utils';
 import { Phase } from '@/hooks/usePomodoro';
 
@@ -9,7 +10,7 @@ interface LinearProgressProps {
   timeLeft: number;
 }
 
-export function LinearProgress({ progress, phase, timeLeft }: LinearProgressProps) {
+export const LinearProgress = React.memo(function LinearProgress({ progress, phase, timeLeft }: LinearProgressProps) {
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
   const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
@@ -23,16 +24,16 @@ export function LinearProgress({ progress, phase, timeLeft }: LinearProgressProp
   return (
     <div className="w-full max-w-md flex flex-col gap-6">
       <div className="text-center">
-        <span className="text-5xl sm:text-7xl font-bold text-foreground font-mono tabular-nums">
+        <span className="text-5xl min-[1024px]:text-7xl font-bold text-foreground font-mono tabular-nums">
           {timeStr}
         </span>
       </div>
       <div className="w-full h-3 bg-muted rounded-full overflow-hidden">
         <div
-          className={cn('h-full transition-all duration-1000 ease-linear rounded-full', phaseColors[phase])}
+          className={cn('h-full transition-[width] duration-1000 ease-linear rounded-full', phaseColors[phase])}
           style={{ width: `${progress * 100}%` }}
         />
       </div>
     </div>
   );
-}
+});

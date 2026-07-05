@@ -41,9 +41,9 @@ export function SettingsDialog({ settings, onUpdateSettings }: SettingsDialogPro
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger render={<Button variant="outline" size="sm" className="gap-2" />}>
         <Settings className="size-4" />
-        <span className="hidden sm:inline">Pomodoro Settings</span>
+        <span className="hidden min-[1024px]:inline">Pomodoro Settings</span>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="min-[1024px]:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Timer Settings</DialogTitle>
         </DialogHeader>
