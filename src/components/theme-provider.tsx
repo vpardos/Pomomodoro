@@ -2,14 +2,14 @@
 
 import { createContext, useContext } from 'react';
 import { useTheme, ThemeMode } from '@/hooks/useTheme';
-import { usePalette, CatppuccinFlavor } from '@/hooks/usePalette';
+import { usePalette, PaletteFlavor } from '@/hooks/usePalette';
 
 interface ThemeContextValue {
   mode: ThemeMode;
   setThemeMode: (mode: ThemeMode) => void;
   cycleTheme: () => void;
-  flavor: CatppuccinFlavor;
-  setPaletteFlavor: (flavor: CatppuccinFlavor) => void;
+  flavor: PaletteFlavor;
+  setPaletteFlavor: (flavor: PaletteFlavor) => void;
 }
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);

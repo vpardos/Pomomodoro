@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
+    "@boost/theme-dracula": "^2.1.1",
     "@catppuccin/palette": "^1.8.0",
+    "@milkdown/theme-nord": "^7.21.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.23.0",

@@ -2,30 +2,36 @@
 
 import { useThemeContext } from '@/components/theme-provider';
 import { flavors } from '@catppuccin/palette';
-import { CatppuccinFlavor } from '@/hooks/usePalette';
+import { PaletteFlavor } from '@/hooks/usePalette';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { Palette } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const flavorInfo: Record<CatppuccinFlavor, { name: string; emoji: string; dark: boolean }> = {
-  latte: { name: 'Latte', emoji: '☕', dark: false },
-  frappe: { name: 'Frappé', emoji: '🌊', dark: true },
-  macchiato: { name: 'Macchiato', emoji: '🌺', dark: true },
-  mocha: { name: 'Mocha', emoji: '🌿', dark: true },
+const flavorInfo: Record<PaletteFlavor, { name: string; emoji: string; dark: boolean; swatches: string[] }> = {
+  latte: { name: 'Latte', emoji: '☕', dark: false, swatches: ['#eff1f5', '#8839ef', '#40a02b', '#fe640b'] },
+  frappe: { name: 'Frappé', emoji: '🌊', dark: true, swatches: ['#303446', '#ca9ee6', '#a6d189', '#ef9f76'] },
+  macchiato: { name: 'Macchiato', emoji: '🌺', dark: true, swatches: ['#24273a', '#c6a0f6', '#a6da95', '#f5a97f'] },
+  mocha: { name: 'Mocha', emoji: '🌿', dark: true, swatches: ['#1e1e2e', '#cba6f7', '#a6e3a1', '#fab387'] },
+  dracula: { name: 'Dracula', emoji: '🧛', dark: true, swatches: ['#282a36', '#bd93f9', '#50fa7b', '#ffb86c'] },
+  nord: { name: 'Nord', emoji: '❄️', dark: true, swatches: ['#2e3440', '#88c0d0', '#a3be8c', '#d08770'] },
+  'nord-light': { name: 'Nord Light', emoji: '🏔️', dark: false, swatches: ['#eceff4', '#5e81ac', '#a3be8c', '#d08770'] },
 };
 
 export function PaletteSelector() {
   const { flavor, setPaletteFlavor, mode } = useThemeContext();
 
-  const isFlavorAvailable = (f: CatppuccinFlavor) => {
-    if (mode === 'light') return f === 'latte';
-    return f !== 'latte';
+  const isFlavorAvailable = (f: PaletteFlavor) => {
+    if (mode === 'light') {
+      return f === 'latte' || f === 'nord-light';
+    }
+    // dark or oled
+    return f !== 'latte' && f !== 'nord-light';
   };
 
-  const getUnavailableMessage = (f: CatppuccinFlavor) => {
-    if (mode === 'light' && f !== 'latte') return 'Not available in light mode';
-    if ((mode === 'dark' || mode === 'oled') && f === 'latte') return 'Not available in dark mode';
+  const getUnavailableMessage = (f: PaletteFlavor) => {
+    if (mode === 'light' && f !== 'latte' && f !== 'nord-light') return 'Not available in light mode';
+    if ((mode === 'dark' || mode === 'oled') && (f === 'latte' || f === 'nord-light')) return 'Not available in dark mode';
     return '';
   };
 
@@ -39,9 +45,8 @@ export function PaletteSelector() {
         <div className="flex flex-col gap-2">
           <h3 className="text-sm font-semibold text-foreground">Color Palette</h3>
           <div className="flex flex-col gap-1">
-            {(Object.keys(flavorInfo) as CatppuccinFlavor[]).map((f) => {
+            {(Object.keys(flavorInfo) as PaletteFlavor[]).map((f) => {
               const info = flavorInfo[f];
-              const palette = flavors[f];
               const isSelected = flavor === f;
               const isAvailable = isFlavorAvailable(f);
               const unavailableMessage = getUnavailableMessage(f);
@@ -63,22 +68,13 @@ export function PaletteSelector() {
                 >
                   {/* Color swatches */}
                   <div className="flex gap-0.5">
-                    <div
-                      className="size-4 rounded-sm"
-                      style={{ backgroundColor: palette.colors.base.hex }}
-                    />
-                    <div
-                      className="size-4 rounded-sm"
-                      style={{ backgroundColor: palette.colors.mauve.hex }}
-                    />
-                    <div
-                      className="size-4 rounded-sm"
-                      style={{ backgroundColor: palette.colors.green.hex }}
-                    />
-                    <div
-                      className="size-4 rounded-sm"
-                      style={{ backgroundColor: palette.colors.peach.hex }}
-                    />
+                    {info.swatches.map((color, i) => (
+                      <div
+                        key={i}
+                        className="size-4 rounded-sm"
+                        style={{ backgroundColor: color }}
+                      />
+                    ))}
                   </div>
                   
                   {/* Label */}

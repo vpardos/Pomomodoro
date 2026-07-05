@@ -4,20 +4,72 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { flavors } from '@catppuccin/palette';
 import type { ThemeMode } from './useTheme';
 
-export type CatppuccinFlavor = 'latte' | 'frappe' | 'macchiato' | 'mocha';
+export type PaletteFlavor = 'latte' | 'frappe' | 'macchiato' | 'mocha' | 'dracula' | 'nord' | 'nord-light';
+
+// Keep backward compatibility
+export type CatppuccinFlavor = PaletteFlavor;
 
 const STORAGE_KEY = 'pomodoro-palette';
 
-function getDefaultFlavor(mode: ThemeMode): CatppuccinFlavor {
+// Dracula color palette
+const draculaColors = {
+  background: '#282a36',
+  card: '#44475a',
+  foreground: '#f8f8f2',
+  primary: '#bd93f9',
+  secondary: '#44475a',
+  muted: '#6272a4',
+  accent: '#6272a4',
+  destructive: '#ff5555',
+  border: '#6272a4',
+  work: '#ffb86c',
+  break: '#50fa7b',
+  rest: '#8be9fd',
+};
+
+// Nord dark color palette
+const nordColors = {
+  background: '#2e3440',
+  card: '#3b4252',
+  foreground: '#eceff4',
+  primary: '#88c0d0',
+  secondary: '#434c5e',
+  muted: '#4c566a',
+  accent: '#4c566a',
+  destructive: '#bf616a',
+  border: '#434c5e',
+  work: '#d08770',
+  break: '#a3be8c',
+  rest: '#5e81ac',
+};
+
+// Nord light color palette
+const nordLightColors = {
+  background: '#eceff4',
+  card: '#e5e9f0',
+  foreground: '#2e3440',
+  primary: '#5e81ac',
+  secondary: '#d8dee9',
+  muted: '#d8dee9',
+  accent: '#d8dee9',
+  destructive: '#bf616a',
+  border: '#d8dee9',
+  work: '#d08770',
+  break: '#a3be8c',
+  rest: '#5e81ac',
+};
+
+function getDefaultFlavor(mode: ThemeMode): PaletteFlavor {
   return mode === 'light' ? 'latte' : 'mocha';
 }
 
-function loadPalette(): CatppuccinFlavor | null {
+function loadPalette(): PaletteFlavor | null {
   if (typeof window === 'undefined') return null;
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored === 'latte' || stored === 'frappe' || stored === 'macchiato' || stored === 'mocha') {
-      return stored;
+    const validFlavors: PaletteFlavor[] = ['latte', 'frappe', 'macchiato', 'mocha', 'dracula', 'nord', 'nord-light'];
+    if (stored && validFlavors.includes(stored as PaletteFlavor)) {
+      return stored as PaletteFlavor;
     }
   } catch (e) {
     console.error('Failed to load palette:', e);
@@ -25,7 +77,7 @@ function loadPalette(): CatppuccinFlavor | null {
   return null;
 }
 
-function savePalette(flavor: CatppuccinFlavor) {
+function savePalette(flavor: PaletteFlavor) {
   if (typeof window === 'undefined') return;
   try {
     localStorage.setItem(STORAGE_KEY, flavor);
@@ -34,7 +86,7 @@ function savePalette(flavor: CatppuccinFlavor) {
   }
 }
 
-function applyPalette(flavor: CatppuccinFlavor, mode: ThemeMode) {
+function applyCatppuccinPalette(flavor: 'latte' | 'frappe' | 'macchiato' | 'mocha', mode: ThemeMode) {
   const root = document.documentElement;
   const palette = flavors[flavor];
   const colors = palette.colors;
@@ -71,22 +123,71 @@ function applyPalette(flavor: CatppuccinFlavor, mode: ThemeMode) {
   root.style.setProperty('--accent-work', `oklch(${colors.peach.oklch.l} ${colors.peach.oklch.c} ${colors.peach.oklch.h})`);
   root.style.setProperty('--accent-break', `oklch(${colors.green.oklch.l} ${colors.green.oklch.c} ${colors.green.oklch.h})`);
   root.style.setProperty('--accent-rest', `oklch(${colors.blue.oklch.l} ${colors.blue.oklch.c} ${colors.blue.oklch.h})`);
+}
+
+function applyCustomPalette(colors: typeof draculaColors, mode: ThemeMode) {
+  const root = document.documentElement;
+
+  root.style.setProperty('--background', colors.background);
+  root.style.setProperty('--foreground', colors.foreground);
+  
+  root.style.setProperty('--card', colors.card);
+  root.style.setProperty('--card-foreground', colors.foreground);
+  
+  root.style.setProperty('--popover', colors.card);
+  root.style.setProperty('--popover-foreground', colors.foreground);
+  
+  root.style.setProperty('--primary', colors.primary);
+  root.style.setProperty('--primary-foreground', colors.background);
+  
+  root.style.setProperty('--secondary', colors.secondary);
+  root.style.setProperty('--secondary-foreground', colors.foreground);
+  
+  root.style.setProperty('--muted', colors.muted);
+  root.style.setProperty('--muted-foreground', colors.foreground);
+  
+  root.style.setProperty('--accent', colors.accent);
+  root.style.setProperty('--accent-foreground', colors.foreground);
+  
+  root.style.setProperty('--destructive', colors.destructive);
+  
+  root.style.setProperty('--border', `${colors.border}80`); // 50% opacity
+  root.style.setProperty('--input', colors.secondary);
+  root.style.setProperty('--ring', colors.primary);
+  
+  // Phase accent colors
+  root.style.setProperty('--accent-work', colors.work);
+  root.style.setProperty('--accent-break', colors.break);
+  root.style.setProperty('--accent-rest', colors.rest);
+}
+
+function applyPalette(flavor: PaletteFlavor, mode: ThemeMode) {
+  if (flavor === 'dracula') {
+    applyCustomPalette(draculaColors, mode);
+  } else if (flavor === 'nord') {
+    applyCustomPalette(nordColors, mode);
+  } else if (flavor === 'nord-light') {
+    applyCustomPalette(nordLightColors, mode);
+  } else {
+    applyCatppuccinPalette(flavor, mode);
+  }
 
   // OLED pure-black overrides
-    if (mode === 'oled') {
-      root.style.setProperty('--background', 'oklch(0 0 0)');
-      root.style.setProperty('--card', 'oklch(0.08 0 0)');
-      root.style.setProperty('--popover', 'oklch(0.08 0 0)');
-      root.style.setProperty('--secondary', 'oklch(0.14 0 0)');
-      root.style.setProperty('--muted', 'oklch(0.4 0 0)');
-      root.style.setProperty('--accent', 'oklch(0.14 0 0)');
-      root.style.setProperty('--border', 'oklch(1 0 0 / 0.07)');
-      root.style.setProperty('--input', 'oklch(1 0 0 / 0.1)');
-    }
+  if (mode === 'oled') {
+    const root = document.documentElement;
+    root.style.setProperty('--background', 'oklch(0 0 0)');
+    root.style.setProperty('--card', 'oklch(0.08 0 0)');
+    root.style.setProperty('--popover', 'oklch(0.08 0 0)');
+    root.style.setProperty('--secondary', 'oklch(0.14 0 0)');
+    root.style.setProperty('--muted', 'oklch(0.4 0 0)');
+    root.style.setProperty('--accent', 'oklch(0.14 0 0)');
+    root.style.setProperty('--border', 'oklch(1 0 0 / 0.07)');
+    root.style.setProperty('--input', 'oklch(1 0 0 / 0.1)');
+  }
 }
 
 export function usePalette(mode: ThemeMode) {
-  const [flavor, setFlavor] = useState<CatppuccinFlavor>(() => getDefaultFlavor(mode));
+  const [flavor, setFlavor] = useState<PaletteFlavor>(() => getDefaultFlavor(mode));
 
   useEffect(() => {
     const stored = loadPalette();
@@ -99,10 +200,16 @@ export function usePalette(mode: ThemeMode) {
   // Compute effective flavor based on mode
   const effectiveFlavor = useMemo(() => {
     if (mode === 'light') {
+      // In light mode, only light-compatible flavors are allowed
+      if (flavor === 'latte' || flavor === 'nord-light') {
+        return flavor;
+      }
+      // Default to latte if a dark flavor was selected
       return 'latte';
     }
-    if ((mode === 'dark' || mode === 'oled') && flavor === 'latte') {
-      return 'macchiato';
+    // In dark/oled mode, nord-light is not available
+    if ((mode === 'dark' || mode === 'oled') && flavor === 'nord-light') {
+      return 'nord';
     }
     return flavor;
   }, [mode, flavor]);
@@ -111,7 +218,7 @@ export function usePalette(mode: ThemeMode) {
     applyPalette(effectiveFlavor, mode);
   }, [effectiveFlavor, mode]);
 
-  const setPaletteFlavor = useCallback((newFlavor: CatppuccinFlavor) => {
+  const setPaletteFlavor = useCallback((newFlavor: PaletteFlavor) => {
     setFlavor(newFlavor);
     savePalette(newFlavor);
   }, []);
