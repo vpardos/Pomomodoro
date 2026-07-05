@@ -151,7 +151,7 @@ export function usePomodoro(onPhaseChange?: (from: Phase, to: Phase) => void) {
     const seconds = timeLeft % 60;
     const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     const phaseStr = phase === 'work' ? 'Focus' : phase === 'shortBreak' ? 'Short Break' : 'Long Break';
-    document.title = `(${timeStr}) ${phaseStr} | Pomodoro`;
+    document.title = `(${timeStr}) ${phaseStr} | Pomomodoro`;
   }, [timeLeft, phase]);
 
   const play = useCallback(() => {
