@@ -167,15 +167,15 @@ export default function Home() {
       <footer className="border-t border-border bg-card">
         <div className="container mx-auto px-4 py-4 text-center">
           <span className="text-sm text-muted-foreground transition-colors font-mono">
-            Made by
+            Made by{" "}
             <a
               href="https://github.com/vpardos"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors font-mono inline-flex items-center gap-1"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors font-mono"
             >
-              <img src="/github-icon.svg" alt="GitHub" className="w-4 h-4" />
-              ‎ vpardos
+              <img src="/github-icon.svg" alt="GitHub" className="w-4 h-4 inline-block align-text-bottom" />
+              {" "}vpardos
             </a>
             .
           </span>
