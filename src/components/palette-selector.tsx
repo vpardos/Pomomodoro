@@ -45,7 +45,13 @@ export function PaletteSelector() {
         <div className="flex flex-col gap-2">
           <h3 className="text-sm font-semibold text-foreground">Color Palette</h3>
           <div className="flex flex-col gap-1">
-            {(Object.keys(flavorInfo) as PaletteFlavor[]).map((f) => {
+            {([...Object.keys(flavorInfo) as PaletteFlavor[]]).sort((a, b) => {
+              const aAvailable = isFlavorAvailable(a);
+              const bAvailable = isFlavorAvailable(b);
+              if (aAvailable && !bAvailable) return -1;
+              if (!aAvailable && bAvailable) return 1;
+              return 0;
+            }).map((f) => {
               const info = flavorInfo[f];
               const isSelected = flavor === f;
               const isAvailable = isFlavorAvailable(f);
