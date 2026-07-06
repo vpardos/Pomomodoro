@@ -18,12 +18,11 @@ export const metadata: Metadata = {
   description: "A free Pomodoro timer with customizable work and break sessions, alarms, notifications, and multiple color themes.",
   icons: {
     icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
       { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon-16x16.png", sizes: "16x16" },
-      { url: "/favicon-32x32.png", sizes: "32x32" },
-      { url: "/favicon-dark.ico", sizes: "any", media: "(prefers-color-scheme: dark)" },
-      { url: "/favicon-16x16-dark.png", sizes: "16x16", media: "(prefers-color-scheme: dark)" },
-      { url: "/favicon-32x32-dark.png", sizes: "32x32", media: "(prefers-color-scheme: dark)" },
     ],
     apple: "/apple-touch-icon.png",
   },
