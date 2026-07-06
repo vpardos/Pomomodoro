@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { flavors } from '@catppuccin/palette';
 import type { ThemeMode } from './useTheme';
 
-export type PaletteFlavor = 'latte' | 'frappe' | 'macchiato' | 'mocha' | 'dracula' | 'nord' | 'nord-light' | 'nord-polar' | 'nord-snow' | 'nord-frost' | 'nord-aurora';
+export type PaletteFlavor = 'latte' | 'frappe' | 'macchiato' | 'mocha' | 'dracula' | 'nord-polar' | 'nord-snow' | 'nord-frost' | 'nord-aurora';
 
 // Keep backward compatibility
 export type CatppuccinFlavor = PaletteFlavor;
@@ -59,12 +59,12 @@ const nordLightColors = {
   rest: '#5e81ac',
 };
 
-// Nord Polar Night - dark theme using Polar Night colors
+// Nord Polar Night - dark theme using Polar Night colors with white-ish primary for readability
 const nordPolarColors = {
   background: '#2e3440',
   card: '#3b4252',
   foreground: '#eceff4',
-  primary: '#4c566a',
+  primary: '#eceff4',
   secondary: '#434c5e',
   muted: '#4c566a',
   accent: '#434c5e',
@@ -131,7 +131,7 @@ function loadPalette(): PaletteFlavor | null {
   if (typeof window === 'undefined') return null;
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    const validFlavors: PaletteFlavor[] = ['latte', 'frappe', 'macchiato', 'mocha', 'dracula', 'nord', 'nord-light', 'nord-polar', 'nord-snow', 'nord-frost', 'nord-aurora'];
+    const validFlavors: PaletteFlavor[] = ['latte', 'frappe', 'macchiato', 'mocha', 'dracula', 'nord-polar', 'nord-snow', 'nord-frost', 'nord-aurora'];
     if (stored && validFlavors.includes(stored as PaletteFlavor)) {
       return stored as PaletteFlavor;
     }
@@ -228,10 +228,6 @@ function applyCustomPalette(colors: typeof draculaColors, mode: ThemeMode) {
 function applyPalette(flavor: PaletteFlavor, mode: ThemeMode) {
   if (flavor === 'dracula') {
     applyCustomPalette(draculaColors, mode);
-  } else if (flavor === 'nord') {
-    applyCustomPalette(nordColors, mode);
-  } else if (flavor === 'nord-light') {
-    applyCustomPalette(nordLightColors, mode);
   } else if (flavor === 'nord-polar') {
     applyCustomPalette(nordPolarColors, mode);
   } else if (flavor === 'nord-snow') {
@@ -273,15 +269,15 @@ export function usePalette(mode: ThemeMode) {
   const effectiveFlavor = useMemo(() => {
     if (mode === 'light') {
       // In light mode, only light-compatible flavors are allowed
-      if (flavor === 'latte' || flavor === 'nord-light' || flavor === 'nord-snow') {
+      if (flavor === 'latte' || flavor === 'nord-snow') {
         return flavor;
       }
       // Default to latte if a dark flavor was selected
       return 'latte';
     }
     // In dark/oled mode, light-only flavors are not available
-    if ((mode === 'dark' || mode === 'oled') && (flavor === 'latte' || flavor === 'nord-light' || flavor === 'nord-snow')) {
-      return 'nord';
+    if ((mode === 'dark' || mode === 'oled') && (flavor === 'latte' || flavor === 'nord-snow')) {
+      return 'mocha';
     }
     return flavor;
   }, [mode, flavor]);
