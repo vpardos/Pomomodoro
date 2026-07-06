@@ -170,7 +170,7 @@ export default function Home() {
       <footer className="border-t border-border bg-card">
         <div className="container mx-auto px-4 py-4 text-center">
           <span className="text-sm text-muted-foreground transition-colors font-mono">
-            Made by{" "}
+            Pomomodoro, created by{" "}
             <a
               href="https://github.com/vpardos"
               target="_blank"
