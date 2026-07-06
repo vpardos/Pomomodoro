@@ -16,6 +16,10 @@ const flavorInfo: Record<PaletteFlavor, { name: string; emoji: string; dark: boo
   dracula: { name: 'Dracula', emoji: '🧛', dark: true, swatches: ['#282a36', '#bd93f9', '#50fa7b', '#ffb86c'] },
   nord: { name: 'Nord', emoji: '❄️', dark: true, swatches: ['#2e3440', '#88c0d0', '#a3be8c', '#d08770'] },
   'nord-light': { name: 'Nord Light', emoji: '🏔️', dark: false, swatches: ['#eceff4', '#5e81ac', '#a3be8c', '#d08770'] },
+  'nord-polar': { name: 'Nord Polar Night', emoji: '🌑', dark: true, swatches: ['#2e3440', '#3b4252', '#434c5e', '#4c566a'] },
+  'nord-snow': { name: 'Nord Snow Storm', emoji: '☁️', dark: false, swatches: ['#eceff4', '#e5e9f0', '#d8dee9', '#5e81ac'] },
+  'nord-frost': { name: 'Nord Frost', emoji: '🧊', dark: true, swatches: ['#2e3440', '#8fbcbb', '#88c0d0', '#5e81ac'] },
+  'nord-aurora': { name: 'Nord Aurora', emoji: '🌌', dark: true, swatches: ['#2e3440', '#a3be8c', '#bf616a', '#d08770'] },
 };
 
 export function PaletteSelector() {
@@ -23,15 +27,15 @@ export function PaletteSelector() {
 
   const isFlavorAvailable = (f: PaletteFlavor) => {
     if (mode === 'light') {
-      return f === 'latte' || f === 'nord-light';
+      return f === 'latte' || f === 'nord-light' || f === 'nord-snow';
     }
     // dark or oled
-    return f !== 'latte' && f !== 'nord-light';
+    return f !== 'latte' && f !== 'nord-light' && f !== 'nord-snow';
   };
 
   const getUnavailableMessage = (f: PaletteFlavor) => {
-    if (mode === 'light' && f !== 'latte' && f !== 'nord-light') return 'Not available in light mode';
-    if ((mode === 'dark' || mode === 'oled') && (f === 'latte' || f === 'nord-light')) return 'Not available in dark mode';
+    if (mode === 'light' && f !== 'latte' && f !== 'nord-light' && f !== 'nord-snow') return 'Not available in light mode';
+    if ((mode === 'dark' || mode === 'oled') && (f === 'latte' || f === 'nord-light' || f === 'nord-snow')) return 'Not available in dark mode';
     return '';
   };
 
