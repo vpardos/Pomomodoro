@@ -14,8 +14,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Pomomodoro",
-  description: "A simple Pomodoro timer to boost your productivity",
+  title: "Pomomodoro - Pomodoro Timer",
+  description: "A free Pomodoro timer with customizable work and break sessions, alarms, notifications, and multiple color themes.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
