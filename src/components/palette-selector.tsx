@@ -86,7 +86,7 @@ export function PaletteSelector() {
                   {/* Label */}
                   <div className="flex flex-col">
                     <span className="text-sm font-medium text-foreground">
-                      {info.emoji} {info.name}
+                      {info.name}
                     </span>
                     <span className="text-xs text-muted-foreground">
                       {unavailableMessage || (info.dark ? 'Dark theme' : 'Light theme')}
