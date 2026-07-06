@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { flavors } from '@catppuccin/palette';
 import type { ThemeMode } from './useTheme';
 
-export type PaletteFlavor = 'latte' | 'frappe' | 'macchiato' | 'mocha' | 'dracula' | 'nord' | 'nord-light';
+export type PaletteFlavor = 'latte' | 'frappe' | 'macchiato' | 'mocha' | 'dracula' | 'nord-polar' | 'nord-snow' | 'nord-frost' | 'nord-aurora';
 
 // Keep backward compatibility
 export type CatppuccinFlavor = PaletteFlavor;
@@ -59,6 +59,70 @@ const nordLightColors = {
   rest: '#5e81ac',
 };
 
+// Nord Polar Night - dark theme using Polar Night colors with white-ish primary for readability
+const nordPolarColors = {
+  background: '#2e3440',
+  card: '#3b4252',
+  foreground: '#eceff4',
+  primary: '#eceff4',
+  secondary: '#434c5e',
+  muted: '#4c566a',
+  accent: '#434c5e',
+  destructive: '#bf616a',
+  border: '#434c5e',
+  work: '#d08770',
+  break: '#a3be8c',
+  rest: '#88c0d0',
+};
+
+// Nord Snow Storm - light theme using Snow Storm colors
+const nordSnowColors = {
+  background: '#eceff4',
+  card: '#e5e9f0',
+  foreground: '#2e3440',
+  primary: '#5e81ac',
+  secondary: '#d8dee9',
+  muted: '#d8dee9',
+  accent: '#d8dee9',
+  destructive: '#bf616a',
+  border: '#d8dee9',
+  work: '#d08770',
+  break: '#a3be8c',
+  rest: '#5e81ac',
+};
+
+// Nord Frost - dark theme emphasizing Frost (bluish) colors
+const nordFrostColors = {
+  background: '#2e3440',
+  card: '#3b4252',
+  foreground: '#eceff4',
+  primary: '#8fbcbb',
+  secondary: '#434c5e',
+  muted: '#4c566a',
+  accent: '#434c5e',
+  destructive: '#bf616a',
+  border: '#434c5e',
+  work: '#88c0d0',
+  break: '#8fbcbb',
+  rest: '#5e81ac',
+};
+
+// Nord Aurora - dark theme emphasizing Aurora (colorful) accents
+const nordAuroraColors = {
+  background: '#2e3440',
+  card: '#3b4252',
+  foreground: '#eceff4',
+  primary: '#a3be8c',
+  secondary: '#434c5e',
+  muted: '#4c566a',
+  accent: '#434c5e',
+  destructive: '#bf616a',
+  border: '#434c5e',
+  work: '#d08770',
+  break: '#a3be8c',
+  rest: '#88c0d0',
+};
+
 function getDefaultFlavor(mode: ThemeMode): PaletteFlavor {
   return mode === 'light' ? 'latte' : 'mocha';
 }
@@ -67,7 +131,7 @@ function loadPalette(): PaletteFlavor | null {
   if (typeof window === 'undefined') return null;
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    const validFlavors: PaletteFlavor[] = ['latte', 'frappe', 'macchiato', 'mocha', 'dracula', 'nord', 'nord-light'];
+    const validFlavors: PaletteFlavor[] = ['latte', 'frappe', 'macchiato', 'mocha', 'dracula', 'nord-polar', 'nord-snow', 'nord-frost', 'nord-aurora'];
     if (stored && validFlavors.includes(stored as PaletteFlavor)) {
       return stored as PaletteFlavor;
     }
@@ -164,10 +228,14 @@ function applyCustomPalette(colors: typeof draculaColors, mode: ThemeMode) {
 function applyPalette(flavor: PaletteFlavor, mode: ThemeMode) {
   if (flavor === 'dracula') {
     applyCustomPalette(draculaColors, mode);
-  } else if (flavor === 'nord') {
-    applyCustomPalette(nordColors, mode);
-  } else if (flavor === 'nord-light') {
-    applyCustomPalette(nordLightColors, mode);
+  } else if (flavor === 'nord-polar') {
+    applyCustomPalette(nordPolarColors, mode);
+  } else if (flavor === 'nord-snow') {
+    applyCustomPalette(nordSnowColors, mode);
+  } else if (flavor === 'nord-frost') {
+    applyCustomPalette(nordFrostColors, mode);
+  } else if (flavor === 'nord-aurora') {
+    applyCustomPalette(nordAuroraColors, mode);
   } else {
     applyCatppuccinPalette(flavor, mode);
   }
@@ -201,15 +269,15 @@ export function usePalette(mode: ThemeMode) {
   const effectiveFlavor = useMemo(() => {
     if (mode === 'light') {
       // In light mode, only light-compatible flavors are allowed
-      if (flavor === 'latte' || flavor === 'nord-light') {
+      if (flavor === 'latte' || flavor === 'nord-snow') {
         return flavor;
       }
       // Default to latte if a dark flavor was selected
       return 'latte';
     }
-    // In dark/oled mode, nord-light is not available
-    if ((mode === 'dark' || mode === 'oled') && flavor === 'nord-light') {
-      return 'nord';
+    // In dark/oled mode, light-only flavors are not available
+    if ((mode === 'dark' || mode === 'oled') && (flavor === 'latte' || flavor === 'nord-snow')) {
+      return 'mocha';
     }
     return flavor;
   }, [mode, flavor]);
