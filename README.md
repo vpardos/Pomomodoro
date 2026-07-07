@@ -4,6 +4,8 @@ A simple Pomodoro timer built with Next.js 16 and React 19.
 
 ![Pomodoro Timer](https://img.shields.io/badge/Next.js-16.2.10-black?style=flat-square&logo=next.js) ![React](https://img.shields.io/badge/React-19.2.4-blue?style=flat-square&logo=react) ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat-square&logo=typescript) ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38bdf8?style=flat-square&logo=tailwind-css)
 
+![Screenshot](./screenshots/screenshot-1.png)
+
 ## Features
 
 - **Pomodoro Timer** — Work/short break/long break phases with automatic transitions
