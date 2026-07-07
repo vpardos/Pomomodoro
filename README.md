@@ -2,6 +2,8 @@
 
 A simple Pomodoro timer built with Next.js 16 and React 19.
 
+Live at [https://pomomodoro.vpardos.dev](https://pomomodoro.vpardos.dev)
+
 ![Pomodoro Timer](https://img.shields.io/badge/Next.js-16.2.10-black?style=flat-square&logo=next.js) ![React](https://img.shields.io/badge/React-19.2.4-blue?style=flat-square&logo=react) ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat-square&logo=typescript) ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38bdf8?style=flat-square&logo=tailwind-css)
 
 ![Screenshot](./screenshots/screenshot-1.png)
@@ -14,10 +16,10 @@ A simple Pomodoro timer built with Next.js 16 and React 19.
 - **Sound Notifications** — Sound on phase transitions
 - **Browser Notifications** — Notifications on phase changes
 - **Alarm System** — Schedule alarms for specific times with sound/notification alerts
+- **Task System** — Track up to 5 tasks with check-to-complete
 - **Theme System** — Light/dark/OLED modes
 - **Settings Persistence** — All settings saved to localStorage
 - **Dynamic Page Title** — Shows remaining time and current phase in browser tab
-- **Responsive Layout** — Mobile-first design with grid adjustments
 
 ## Getting Started
 
