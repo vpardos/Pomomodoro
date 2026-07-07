@@ -42,3 +42,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+Nord_files/google-analytics_analytics_l1TS.js
+Nord_files/
