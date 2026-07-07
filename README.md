@@ -14,10 +14,10 @@ A simple Pomodoro timer built with Next.js 16 and React 19.
 - **Sound Notifications** — Sound on phase transitions
 - **Browser Notifications** — Notifications on phase changes
 - **Alarm System** — Schedule alarms for specific times with sound/notification alerts
+- **Task System** — Track up to 5 tasks with check-to-complete
 - **Theme System** — Light/dark/OLED modes
 - **Settings Persistence** — All settings saved to localStorage
 - **Dynamic Page Title** — Shows remaining time and current phase in browser tab
-- **Responsive Layout** — Mobile-first design with grid adjustments
 
 ## Getting Started
 
