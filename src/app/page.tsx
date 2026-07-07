@@ -3,10 +3,11 @@
 import { useCallback } from "react";
 import { usePomodoro, Phase } from "@/hooks/usePomodoro";
 import { useNotifications } from "@/hooks/useNotifications";
+import { useTasks } from "@/hooks/useTasks";
 import { playAlarm } from "@/lib/alarm";
 import { TimerDisplay } from "@/components/timer-display";
 import { SettingsDialog } from "@/components/settings-dialog";
-import { TaskPlaceholder } from "@/components/task-placeholder";
+import { TasksCard } from "@/components/tasks-card";
 import { ScheduleCard } from "@/components/alarm-card";
 import { AlarmsCard } from "@/components/alarms-card";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -27,6 +28,15 @@ export default function Home() {
     removeAlarm,
     toggleAlarm,
   } = useNotifications();
+
+  const {
+    tasks,
+    addTask,
+    removeTask,
+    toggleTask,
+    moveTask,
+    clearCompleted,
+  } = useTasks();
 
   const handlePhaseChange = useCallback(
     (from: Phase, to: Phase) => {
@@ -141,7 +151,14 @@ export default function Home() {
           </div>
 
           <div className="lg:col-span-1">
-            <TaskPlaceholder />
+            <TasksCard
+              tasks={tasks}
+              onAddTask={addTask}
+              onRemoveTask={removeTask}
+              onToggleTask={toggleTask}
+              onMoveTask={moveTask}
+              onClearCompleted={clearCompleted}
+            />
           </div>
         </div>
 
