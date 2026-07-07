@@ -36,6 +36,8 @@ export default function Home() {
     toggleTask,
     moveTask,
     clearCompleted,
+    editTask,
+    markAllCompleted,
   } = useTasks();
 
   const handlePhaseChange = useCallback(
@@ -158,6 +160,8 @@ export default function Home() {
               onToggleTask={toggleTask}
               onMoveTask={moveTask}
               onClearCompleted={clearCompleted}
+              onEditTask={editTask}
+              onMarkAllCompleted={markAllCompleted}
             />
           </div>
         </div>

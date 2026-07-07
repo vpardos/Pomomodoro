@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 
 const TASKS_KEY = "pomodoro-tasks";
+export const MAX_TASKS = 5;
 
 export interface Task {
   id: string;
@@ -76,6 +77,20 @@ export function useTasks() {
     setTasks((prev) => prev.filter((task) => !task.completed));
   }, []);
 
+  const editTask = useCallback((id: string, newText: string) => {
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === id ? { ...task, text: newText } : task,
+      ),
+    );
+  }, []);
+
+  const markAllCompleted = useCallback(() => {
+    setTasks((prev) =>
+      prev.map((task) => ({ ...task, completed: true })),
+    );
+  }, []);
+
   return {
     tasks,
     addTask,
@@ -83,5 +98,7 @@ export function useTasks() {
     toggleTask,
     moveTask,
     clearCompleted,
+    editTask,
+    markAllCompleted,
   };
 }
