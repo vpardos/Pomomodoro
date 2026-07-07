@@ -44,3 +44,7 @@ yarn-error.log*
 next-env.d.ts
 Nord_files/google-analytics_analytics_l1TS.js
 Nord_files/
+AGENTS.md
+CLAUDE.md
+skills-lock.json
+.agents/skills/
