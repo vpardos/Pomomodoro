@@ -39,7 +39,16 @@ export function PaletteSelector() {
 
   return (
     <Popover>
-      <PopoverTrigger render={<Button variant="outline" size="sm" className="gap-2" />}>
+      <PopoverTrigger
+        render={
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2"
+            aria-label="Change color palette"
+          />
+        }
+      >
         <Palette className="size-4" />
         <span className="hidden min-[1024px]:inline">Color Palette</span>
       </PopoverTrigger>

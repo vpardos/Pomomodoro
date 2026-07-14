@@ -39,9 +39,18 @@ export function SettingsDialog({ settings, onUpdateSettings }: SettingsDialogPro
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={<Button variant="outline" size="sm" className="gap-2" />}>
+      <DialogTrigger
+        render={
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2"
+            aria-label="Pomodoro settings"
+          />
+        }
+      >
         <Settings className="size-4" />
-        <span className="hidden min-[1024px]:inline">Pomodoro Settings</span>
+        <span className="hidden min-[1024px]:inline">Settings</span>
       </DialogTrigger>
       <DialogContent className="min-[1024px]:max-w-[425px]">
         <DialogHeader>

@@ -10,12 +10,18 @@ interface CircularProgressProps {
   timeLeft: number;
 }
 
-export const CircularProgress = React.memo(function CircularProgress({ progress, phase: _phase, timeLeft }: CircularProgressProps) {
+export const CircularProgress = React.memo(function CircularProgress({ progress, phase, timeLeft }: CircularProgressProps) {
   const radius = 120;
   const strokeWidth = 8;
   const normalizedRadius = radius - strokeWidth / 2;
   const circumference = normalizedRadius * 2 * Math.PI;
   const strokeDashoffset = circumference - progress * circumference;
+
+  const phaseAccent = {
+    work: 'var(--accent-work)',
+    shortBreak: 'var(--accent-break)',
+    longBreak: 'var(--accent-rest)',
+  }[phase];
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
@@ -35,7 +41,7 @@ export const CircularProgress = React.memo(function CircularProgress({ progress,
         />
         <circle
           className={cn('transition-[stroke-dashoffset] duration-1000 ease-linear')}
-          stroke="var(--foreground)"
+          stroke={phaseAccent}
           fill="transparent"
           strokeWidth={strokeWidth}
           strokeDasharray={circumference + ' ' + circumference}
@@ -47,7 +53,7 @@ export const CircularProgress = React.memo(function CircularProgress({ progress,
         />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-5xl min-[1024px]:text-6xl font-bold text-foreground font-mono tabular-nums">
+        <span className="text-6xl min-[1024px]:text-7xl font-bold text-foreground font-mono tabular-nums tracking-tight">
           {timeStr}
         </span>
       </div>
