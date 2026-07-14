@@ -15,23 +15,23 @@ export const LinearProgress = React.memo(function LinearProgress({ progress, pha
   const seconds = timeLeft % 60;
   const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
-  const phaseColors = {
-    work: 'bg-foreground',
-    shortBreak: 'bg-foreground',
-    longBreak: 'bg-foreground',
-  };
+  const phaseColor = {
+    work: 'var(--accent-work)',
+    shortBreak: 'var(--accent-break)',
+    longBreak: 'var(--accent-rest)',
+  }[phase];
 
   return (
     <div className="w-full max-w-md flex flex-col gap-6">
       <div className="text-center">
-        <span className="text-5xl min-[1024px]:text-7xl font-bold text-foreground font-mono tabular-nums">
+        <span className="text-6xl min-[1024px]:text-7xl font-bold text-foreground font-mono tabular-nums tracking-tight">
           {timeStr}
         </span>
       </div>
-      <div className="w-full h-3 bg-muted rounded-full overflow-hidden">
+      <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
         <div
-          className={cn('h-full transition-[width] duration-1000 ease-linear rounded-full', phaseColors[phase])}
-          style={{ width: `${progress * 100}%` }}
+          className={cn('h-full transition-[width] duration-1000 ease-linear rounded-full')}
+          style={{ width: `${progress * 100}%`, backgroundColor: phaseColor }}
         />
       </div>
     </div>

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Task, MAX_TASKS } from "@/hooks/useTasks";
 import { ListTodo, Plus, Check, ChevronUp, ChevronDown, Trash2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface TasksCardProps {
   tasks: Task[];
@@ -96,113 +97,136 @@ export function TasksCard({
     <Card className="h-full flex flex-col">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <ListTodo className="h-5 w-5" />
-          Tasks
+          <ListTodo className="h-4 w-4 text-muted-foreground" />
+          <span>Tasks</span>
         </CardTitle>
         {mounted && totalCount > 0 && (
           <CardAction>
-            <span className="text-xs font-medium text-muted-foreground bg-muted px-2 py-1 rounded-md">
-              {completedCount}/{totalCount} done
+            <span className="text-xs font-medium tabular-nums text-muted-foreground">
+              {completedCount}/{totalCount}
             </span>
           </CardAction>
         )}
       </CardHeader>
-      <CardContent className="flex-1 flex flex-col gap-4 min-h-0">
+      <CardContent className="flex-1 flex flex-col gap-3 min-h-0">
         <div className="flex gap-2">
           <Input
             type="text"
             value={newTaskText}
             onChange={(e) => setNewTaskText(e.target.value)}
             onKeyDown={handleAddKeyDown}
-            placeholder={isMaxTasks ? "Max tasks reached" : "Add a task..."}
+            placeholder={isMaxTasks ? "Max tasks reached" : "Add a task…"}
             disabled={isMaxTasks}
             className="text-sm"
+            aria-label="New task"
           />
           <Button
             size="icon"
             onClick={handleAddTask}
             disabled={!newTaskText.trim() || isMaxTasks}
             className="shrink-0"
+            aria-label="Add task"
           >
             <Plus className="h-4 w-4" />
           </Button>
         </div>
 
-        <div className="flex-1 overflow-y-auto flex flex-col gap-2 min-h-0">
+        <div className="flex-1 overflow-y-auto flex flex-col min-h-0">
           {mounted && tasks.length > 0 ? (
-            tasks.map((task, index) => (
-              <div
-                key={task.id}
-                className="flex items-center gap-2 p-3 rounded-lg bg-muted/50"
-              >
-                <Button
-                  variant={task.completed ? "default" : "outline"}
-                  size="icon-xs"
-                  onClick={() => onToggleTask(task.id)}
-                  className="shrink-0"
+            <ul className="flex flex-col">
+              {tasks.map((task, index) => (
+                <li
+                  key={task.id}
+                  className={cn(
+                    "group flex items-center gap-2 py-2 -mx-1 px-1 rounded-md transition-colors hover:bg-muted/40",
+                    index !== tasks.length - 1 && "border-b border-border/40",
+                  )}
                 >
-                  {task.completed && <Check className="h-3 w-3" />}
-                </Button>
-                {editingId === task.id ? (
-                  <Input
-                    ref={editInputRef}
-                    type="text"
-                    value={editText}
-                    onChange={(e) => setEditText(e.target.value)}
-                    onKeyDown={handleEditKeyDown}
-                    onBlur={saveEdit}
-                    autoFocus
-                    className="flex-1 text-sm h-7 py-1"
-                  />
-                ) : (
-                  <span
-                    onClick={() => startEditing(task)}
-                    className={`flex-1 truncate text-sm cursor-pointer ${
+                  <button
+                    type="button"
+                    onClick={() => onToggleTask(task.id)}
+                    aria-label={task.completed ? "Mark task incomplete" : "Mark task complete"}
+                    aria-pressed={task.completed}
+                    className={cn(
+                      "shrink-0 grid place-items-center size-5 rounded-full border transition-all",
                       task.completed
-                        ? "line-through text-muted-foreground"
-                        : "text-foreground"
-                    }`}
+                        ? "bg-foreground border-foreground text-background"
+                        : "border-border hover:border-foreground/60",
+                    )}
                   >
-                    {task.text}
-                  </span>
-                )}
-                <Button
-                  variant="ghost"
-                  size="icon-xs"
-                  onClick={() => onMoveTask(task.id, "up")}
-                  disabled={index === 0}
-                  className="shrink-0 h-6 w-6 text-muted-foreground hover:text-foreground"
-                >
-                  <ChevronUp className="h-3 w-3" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon-xs"
-                  onClick={() => onMoveTask(task.id, "down")}
-                  disabled={index === tasks.length - 1}
-                  className="shrink-0 h-6 w-6 text-muted-foreground hover:text-foreground"
-                >
-                  <ChevronDown className="h-3 w-3" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => onRemoveTask(task.id)}
-                  className="shrink-0 h-8 w-8 text-muted-foreground hover:text-destructive"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-            ))
+                    {task.completed && <Check className="size-3" />}
+                  </button>
+                  {editingId === task.id ? (
+                    <Input
+                      ref={editInputRef}
+                      type="text"
+                      value={editText}
+                      onChange={(e) => setEditText(e.target.value)}
+                      onKeyDown={handleEditKeyDown}
+                      onBlur={saveEdit}
+                      autoFocus
+                      className="flex-1 text-sm h-7 py-1"
+                    />
+                  ) : (
+                    <span
+                      onClick={() => startEditing(task)}
+                      className={cn(
+                        "flex-1 truncate text-sm cursor-text transition-colors",
+                        task.completed
+                          ? "line-through text-muted-foreground"
+                          : "text-foreground",
+                      )}
+                    >
+                      {task.text}
+                    </span>
+                  )}
+                  <div className="flex items-center opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
+                    <Button
+                      variant="ghost"
+                      size="icon-xs"
+                      onClick={() => onMoveTask(task.id, "up")}
+                      disabled={index === 0}
+                      className="text-muted-foreground hover:text-foreground"
+                      aria-label="Move task up"
+                    >
+                      <ChevronUp className="h-3 w-3" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon-xs"
+                      onClick={() => onMoveTask(task.id, "down")}
+                      disabled={index === tasks.length - 1}
+                      className="text-muted-foreground hover:text-foreground"
+                      aria-label="Move task down"
+                    >
+                      <ChevronDown className="h-3 w-3" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon-xs"
+                      onClick={() => onRemoveTask(task.id)}
+                      className="text-muted-foreground hover:text-destructive"
+                      aria-label="Delete task"
+                    >
+                      <Trash2 className="h-3 w-3" />
+                    </Button>
+                  </div>
+                </li>
+              ))}
+            </ul>
           ) : mounted ? (
-            <div className="text-center py-4 text-sm text-muted-foreground">
-              No tasks yet
+            <div className="flex-1 grid place-items-center py-8 text-center">
+              <div className="flex flex-col items-center gap-2 text-muted-foreground">
+                <ListTodo className="h-6 w-6 opacity-40" />
+                <p className="text-sm">No tasks yet</p>
+                <p className="text-xs">Add one above to get started</p>
+              </div>
             </div>
           ) : null}
         </div>
 
-        {mounted && (hasUncompleted || completedCount > 0) && (
-          <div className="flex gap-2">
+        {mounted && totalCount > 0 && (hasUncompleted || completedCount > 0) && (
+          <div className="flex gap-2 pt-1">
             {hasUncompleted && (
               <Button
                 variant="ghost"

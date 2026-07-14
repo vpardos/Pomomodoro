@@ -18,7 +18,16 @@ export function ThemeToggle() {
 
   return (
     <Popover>
-      <PopoverTrigger render={<Button variant="outline" size="sm" className="gap-2" />}>
+      <PopoverTrigger
+        render={
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2"
+            aria-label="Change theme"
+          />
+        }
+      >
         <Monitor className="size-4" />
         <span className="hidden min-[1024px]:inline">Theme</span>
       </PopoverTrigger>
