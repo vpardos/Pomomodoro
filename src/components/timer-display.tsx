@@ -12,15 +12,16 @@ interface TimerDisplayProps {
   phase: Phase;
   timeLeft: number;
   style: ProgressStyle;
+  isRunning?: boolean;
 }
 
-export const TimerDisplay = React.memo(function TimerDisplay({ progress, phase, timeLeft, style }: TimerDisplayProps) {
+export const TimerDisplay = React.memo(function TimerDisplay({ progress, phase, timeLeft, style, isRunning }: TimerDisplayProps) {
   return (
-    <div className="flex items-center justify-center size-[min(280px,80vw)]">
+    <div className="flex items-center justify-center size-[min(280px,80vw)] transition-colors duration-700">
       {style === 'circular' ? (
-        <CircularProgress progress={progress} phase={phase} timeLeft={timeLeft} />
+        <CircularProgress progress={progress} phase={phase} timeLeft={timeLeft} isRunning={isRunning} />
       ) : (
-        <LinearProgress progress={progress} phase={phase} timeLeft={timeLeft} />
+        <LinearProgress progress={progress} phase={phase} timeLeft={timeLeft} isRunning={isRunning} />
       )}
     </div>
   );

@@ -117,7 +117,7 @@ export function TasksCard({
             onKeyDown={handleAddKeyDown}
             placeholder={isMaxTasks ? "Max tasks reached" : "Add a task…"}
             disabled={isMaxTasks}
-            className="text-sm"
+            className="text-sm border-border focus-visible:border-primary focus-visible:shadow-md focus-visible:shadow-primary/10 transition-all"
             aria-label="New task"
           />
           <Button
@@ -138,9 +138,10 @@ export function TasksCard({
                 <li
                   key={task.id}
                   className={cn(
-                    "group flex items-center gap-2 py-2 -mx-1 px-1 rounded-md transition-colors hover:bg-muted/40",
+                    "group flex items-center gap-2 py-2 -mx-1 px-1 rounded-md transition-all duration-300 hover:bg-muted/60 animate-fade-in-up",
                     index !== tasks.length - 1 && "border-b border-border/40",
                   )}
+                  style={{ animationDelay: `${index * 50}ms`, animationDuration: '0.4s' }}
                 >
                   <button
                     type="button"
@@ -148,9 +149,9 @@ export function TasksCard({
                     aria-label={task.completed ? "Mark task incomplete" : "Mark task complete"}
                     aria-pressed={task.completed}
                     className={cn(
-                      "shrink-0 grid place-items-center size-5 rounded-full border transition-all",
+                      "shrink-0 grid place-items-center size-5 rounded-full border transition-all duration-300",
                       task.completed
-                        ? "bg-foreground border-foreground text-background"
+                        ? "bg-foreground border-foreground text-background scale-110"
                         : "border-border hover:border-foreground/60",
                     )}
                   >
@@ -186,38 +187,38 @@ export function TasksCard({
                       size="icon-xs"
                       onClick={() => onMoveTask(task.id, "up")}
                       disabled={index === 0}
-                      className="text-muted-foreground hover:text-foreground"
+                      className="text-muted-foreground hover:text-foreground hover:scale-110 transition-transform duration-200"
                       aria-label="Move task up"
                     >
-                      <ChevronUp className="h-3 w-3" />
+                      <ChevronUp className="h-3.5 w-3.5" />
                     </Button>
                     <Button
                       variant="ghost"
                       size="icon-xs"
                       onClick={() => onMoveTask(task.id, "down")}
                       disabled={index === tasks.length - 1}
-                      className="text-muted-foreground hover:text-foreground"
+                      className="text-muted-foreground hover:text-foreground hover:scale-110 transition-transform duration-200"
                       aria-label="Move task down"
                     >
-                      <ChevronDown className="h-3 w-3" />
+                      <ChevronDown className="h-3.5 w-3.5" />
                     </Button>
                     <Button
                       variant="ghost"
                       size="icon-xs"
                       onClick={() => onRemoveTask(task.id)}
-                      className="text-muted-foreground hover:text-destructive"
+                      className="text-muted-foreground hover:text-destructive hover:scale-110 transition-transform duration-200"
                       aria-label="Delete task"
                     >
-                      <Trash2 className="h-3 w-3" />
+                      <Trash2 className="h-3.5 w-3.5" />
                     </Button>
                   </div>
                 </li>
               ))}
             </ul>
           ) : mounted ? (
-            <div className="flex-1 grid place-items-center py-8 text-center">
+            <div className="flex-1 grid place-items-center py-8 text-center animate-fade-in-up">
               <div className="flex flex-col items-center gap-2 text-muted-foreground">
-                <ListTodo className="h-6 w-6 opacity-40" />
+                <ListTodo className="h-6 w-6 opacity-40 animate-float" />
                 <p className="text-sm">No tasks yet</p>
                 <p className="text-xs">Add one above to get started</p>
               </div>

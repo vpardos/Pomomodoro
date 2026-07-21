@@ -10,12 +10,6 @@ interface SessionDotsProps {
   phase: Phase;
 }
 
-/**
- * Renders a row of dots representing progress through the Pomodoro cycle.
- * - Filled (phase color) = completed work session
- * - Ring (phase color)   = current work session
- * - Empty (muted)        = upcoming work session
- */
 export const SessionDots = React.memo(function SessionDots({
   completedCycles,
   longBreakInterval,
@@ -45,18 +39,30 @@ export const SessionDots = React.memo(function SessionDots({
           <span
             key={i}
             className={cn(
-              'inline-block size-2 rounded-full transition-colors duration-300',
+              'relative inline-flex items-center justify-center size-2 rounded-full transition-all',
               isEmpty && 'bg-muted',
+              isCompleted && 'scale-125',
             )}
             style={
               isCompleted
-                ? { backgroundColor: phaseAccent }
+                ? { 
+                    backgroundColor: phaseAccent, 
+                    transitionDuration: '500ms',
+                    transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+                  }
                 : isCurrent
                   ? { backgroundColor: 'transparent', boxShadow: `inset 0 0 0 2px ${phaseAccent}` }
                   : undefined
             }
             aria-hidden="true"
-          />
+          >
+            {isCurrent && (
+              <span
+                className="absolute -inset-1 rounded-full border-2 animate-pulse-ring"
+                style={{ borderColor: phaseAccent }}
+              />
+            )}
+          </span>
         );
       })}
     </div>

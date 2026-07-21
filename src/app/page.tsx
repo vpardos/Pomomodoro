@@ -25,6 +25,12 @@ const phaseLabels: Record<Phase, string> = {
   longBreak: "Long Break",
 };
 
+const phaseAccentVar = {
+  work: "var(--accent-work)",
+  shortBreak: "var(--accent-break)",
+  longBreak: "var(--accent-rest)",
+};
+
 export default function Home() {
   const {
     soundEnabled,
@@ -73,10 +79,28 @@ export default function Home() {
 
   const [progressStyle, setProgressStyle] = useState<ProgressStyle>("circular");
 
+  const phaseAccent = phaseAccentVar[phase];
+
   return (
-    <div className="flex flex-col flex-1 bg-background">
+    <div className="flex flex-col flex-1 bg-background relative">
+      {/* Ambient background blobs */}
+      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden" aria-hidden="true">
+        <div
+          className="absolute top-[10%] left-[15%] w-[500px] h-[500px] rounded-full blur-[120px] opacity-[0.04] animate-blob-drift"
+          style={{ backgroundColor: phaseAccent }}
+        />
+        <div
+          className="absolute bottom-[20%] right-[10%] w-[400px] h-[400px] rounded-full blur-[100px] opacity-[0.05] animate-blob-drift-alt"
+          style={{ backgroundColor: phaseAccent }}
+        />
+        <div
+          className="absolute top-[50%] left-[50%] w-[300px] h-[300px] rounded-full blur-[80px] opacity-[0.03] animate-blob-drift-slow"
+          style={{ backgroundColor: phaseAccent }}
+        />
+      </div>
+
       {/* HEADER */}
-      <header className="sticky top-0 z-10 border-b border-border/60 bg-background/80 backdrop-blur-md">
+      <header className="sticky top-0 z-10 border-b border-border/60 bg-background/70 backdrop-blur-xl transition-all duration-300">
         <div className="container mx-auto px-4 sm:px-6 py-3.5 sm:py-4 flex items-center justify-between gap-3">
           <Link
             href="/"
@@ -85,7 +109,7 @@ export default function Home() {
           >
             <span
               aria-hidden="true"
-              className="grid place-items-center size-8 rounded-lg bg-foreground text-background"
+              className="grid place-items-center size-9 rounded-lg bg-foreground text-background transition-transform duration-200 hover:scale-105"
             >
               <Timer className="size-4" />
             </span>
@@ -105,7 +129,7 @@ export default function Home() {
       <main className="flex-1 container mx-auto px-4 sm:px-6 py-6 sm:py-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* TIMER CARD */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 animate-fade-in-up" style={{ animationDelay: "0ms" }}>
             <Card className="h-full">
               <CardHeader className="relative">
                 <CardTitle className="flex flex-col items-center gap-1.5 text-center">
@@ -116,7 +140,7 @@ export default function Home() {
                     Session {Math.min(completedCycles + 1, settings.longBreakInterval)} of {settings.longBreakInterval}
                   </span>
                 </CardTitle>
-                {/* Progress style switch — quiet corner control */}
+                {/* Progress style switch */}
                 <div
                   className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center rounded-md border border-border/60 bg-background/60 p-0.5"
                   role="group"
@@ -128,7 +152,7 @@ export default function Home() {
                     aria-pressed={progressStyle === "circular"}
                     aria-label="Circular progress"
                     className={cn(
-                      "grid place-items-center size-6 rounded-sm transition-colors",
+                      "grid place-items-center size-7 rounded-sm transition-all duration-200 hover:scale-110",
                       progressStyle === "circular"
                         ? "bg-foreground text-background"
                         : "text-muted-foreground hover:text-foreground",
@@ -145,7 +169,7 @@ export default function Home() {
                     aria-pressed={progressStyle === "linear"}
                     aria-label="Linear progress"
                     className={cn(
-                      "grid place-items-center size-6 rounded-sm transition-colors",
+                      "grid place-items-center size-7 rounded-sm transition-all duration-200 hover:scale-110",
                       progressStyle === "linear"
                         ? "bg-foreground text-background"
                         : "text-muted-foreground hover:text-foreground",
@@ -164,6 +188,7 @@ export default function Home() {
                   phase={phase}
                   timeLeft={timeLeft}
                   style={progressStyle}
+                  isRunning={isRunning}
                 />
                 <SessionDots
                   completedCycles={completedCycles}
@@ -178,13 +203,13 @@ export default function Home() {
                     aria-label="Reset timer"
                     className="text-muted-foreground hover:text-foreground"
                   >
-                    <RotateCcw className="h-4 w-4" />
+                    <RotateCcw className="h-5 w-5" />
                   </Button>
                   {isRunning ? (
                     <Button
                       size="lg"
                       onClick={pause}
-                      className="w-36 sm:w-40 font-semibold"
+                      className="w-40 sm:w-44 font-semibold"
                       aria-label="Pause timer"
                     >
                       <Pause className="h-4 w-4 mr-2" fill="currentColor" />
@@ -195,7 +220,7 @@ export default function Home() {
                       size="lg"
                       onClick={play}
                       disabled={timeLeft === 0}
-                      className="w-36 sm:w-40 font-semibold"
+                      className="w-40 sm:w-44 font-semibold"
                       aria-label="Start timer"
                     >
                       <Play className="h-4 w-4 mr-2" fill="currentColor" />
@@ -209,7 +234,7 @@ export default function Home() {
                     aria-label="Skip to next phase"
                     className="text-muted-foreground hover:text-foreground"
                   >
-                    <SkipForward className="h-4 w-4" />
+                    <SkipForward className="h-5 w-5" />
                   </Button>
                 </div>
               </CardContent>
@@ -217,7 +242,7 @@ export default function Home() {
           </div>
 
           {/* TASKS CARD */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
             <TasksCard
               tasks={tasks}
               onAddTask={addTask}
@@ -231,7 +256,7 @@ export default function Home() {
           </div>
 
           {/* SCHEDULE CARD */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 animate-fade-in-up" style={{ animationDelay: "200ms" }}>
             <ScheduleCard
               timeLeft={timeLeft}
               isRunning={isRunning}
@@ -243,7 +268,7 @@ export default function Home() {
           </div>
 
           {/* ALARMS CARD */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 animate-fade-in-up" style={{ animationDelay: "300ms" }}>
             <AlarmsCard
               alarms={alarms}
               onAddAlarm={addAlarm}
@@ -255,16 +280,16 @@ export default function Home() {
       </main>
 
       {/* FOOTER */}
-      <footer className="border-t border-border/60">
+      <footer className="border-t border-border/60 bg-background/50 backdrop-blur-sm">
         <div className="container mx-auto px-4 sm:px-6 py-5 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-xs text-muted-foreground">
           <span>Pomomodoro</span>
           <span aria-hidden="true">·</span>
           <span>created by</span>
           <a
-            href="https://github.com/vpardos"
+            href="https://github.com/vpardos/Pomomodoro"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 font-medium text-foreground/80 hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-1.5 font-medium text-foreground/80 hover:text-foreground transition-colors hover:underline underline-offset-4"
           >
             <svg
               className="size-3.5"

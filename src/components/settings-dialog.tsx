@@ -66,6 +66,7 @@ export function SettingsDialog({ settings, onUpdateSettings }: SettingsDialogPro
               max={180}
               value={workMinutes}
               onChange={(e) => setWorkMinutes(parseInt(e.target.value) || 1)}
+              className="focus-visible:shadow-md focus-visible:shadow-primary/10 transition-shadow"
             />
           </div>
           <div className="grid gap-2">
@@ -77,6 +78,7 @@ export function SettingsDialog({ settings, onUpdateSettings }: SettingsDialogPro
               max={60}
               value={shortBreakMinutes}
               onChange={(e) => setShortBreakMinutes(parseInt(e.target.value) || 1)}
+              className="focus-visible:shadow-md focus-visible:shadow-primary/10 transition-shadow"
             />
           </div>
           <div className="grid gap-2">
@@ -88,6 +90,7 @@ export function SettingsDialog({ settings, onUpdateSettings }: SettingsDialogPro
               max={60}
               value={longBreakMinutes}
               onChange={(e) => setLongBreakMinutes(parseInt(e.target.value) || 1)}
+              className="focus-visible:shadow-md focus-visible:shadow-primary/10 transition-shadow"
             />
           </div>
           <div className="grid gap-2">
@@ -99,6 +102,7 @@ export function SettingsDialog({ settings, onUpdateSettings }: SettingsDialogPro
               max={10}
               value={longBreakInterval}
               onChange={(e) => setLongBreakInterval(parseInt(e.target.value) || 1)}
+              className="focus-visible:shadow-md focus-visible:shadow-primary/10 transition-shadow"
             />
           </div>
         </div>
