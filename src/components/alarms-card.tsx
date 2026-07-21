@@ -63,7 +63,7 @@ export function AlarmsCard({
                 type="time"
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
-                className="w-[120px] font-mono tabular-nums border-foreground/30 focus-visible:border-primary focus-visible:shadow-md focus-visible:shadow-primary/10 transition-all"
+                className="w-[120px] font-mono tabular-nums border-foreground/15 focus-visible:border-primary focus-visible:shadow-md focus-visible:shadow-primary/10 transition-all"
                 aria-label="Alarm time"
               />
             </div>
@@ -77,7 +77,7 @@ export function AlarmsCard({
                 value={label}
                 onChange={(e) => setLabel(e.target.value)}
                 placeholder="Optional"
-                className="text-sm border-foreground/30 focus-visible:border-primary focus-visible:shadow-md focus-visible:shadow-primary/10 transition-all"
+                className="text-sm border-foreground/15 focus-visible:border-primary focus-visible:shadow-md focus-visible:shadow-primary/10 transition-all"
                 aria-label="Alarm label"
               />
             </div>
