@@ -167,7 +167,7 @@ export function useNotifications() {
       }
     };
 
-    const interval = setInterval(checkAlarms, 15000);
+    const interval = setInterval(checkAlarms, 1000);
     return () => clearInterval(interval);
   }, [alarms, sendNotification, soundEnabled]);
 

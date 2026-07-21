@@ -286,7 +286,7 @@ export default function Home() {
           <span aria-hidden="true">·</span>
           <span>created by</span>
           <a
-            href="https://github.com/vpardos"
+            href="https://github.com/vpardos/Pomomodoro"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 font-medium text-foreground/80 hover:text-foreground transition-colors hover:underline underline-offset-4"

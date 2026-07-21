@@ -42,7 +42,7 @@ export function ScheduleCard({
   const [now, setNow] = useState(new Date());
 
   useEffect(() => {
-    const interval = setInterval(() => setNow(new Date()), 15000);
+    const interval = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -63,7 +63,7 @@ export function ScheduleCard({
             <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
               Now
             </span>
-            <span className="text-3xl font-mono font-semibold text-foreground tabular-nums leading-none bg-muted/30 rounded-lg px-3 py-1.5 transition-colors duration-300">
+            <span className="text-3xl font-mono font-semibold text-foreground tabular-nums leading-none">
               {mounted ? formatTime(now) : "--:--"}
             </span>
           </div>
@@ -72,11 +72,11 @@ export function ScheduleCard({
               {isRunning ? "Ends" : "Status"}
             </span>
             {isRunning ? (
-              <span className="text-3xl font-mono font-semibold text-foreground tabular-nums leading-none bg-muted/30 rounded-lg px-3 py-1.5 transition-colors duration-300">
+              <span className="text-3xl font-mono font-semibold text-foreground tabular-nums leading-none">
                 {mounted ? formatTime(finishTime) : "--:--"}
               </span>
             ) : (
-              <span className="text-3xl font-medium text-muted-foreground leading-none bg-muted/30 rounded-lg px-3 py-1.5 transition-colors duration-300">
+              <span className="text-3xl font-medium text-muted-foreground leading-none">
                 Paused
               </span>
             )}
