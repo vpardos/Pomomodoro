@@ -18,6 +18,10 @@ const flavorInfo: Record<PaletteFlavor, { name: string; emoji: string; dark: boo
   'nord-snow': { name: 'Nord Snow Storm', emoji: '☁️', dark: false, swatches: ['#eceff4', '#e5e9f0', '#d8dee9', '#5e81ac'] },
   'nord-frost': { name: 'Nord Frost', emoji: '🧊', dark: true, swatches: ['#2e3440', '#8fbcbb', '#88c0d0', '#5e81ac'] },
   'nord-aurora': { name: 'Nord Aurora', emoji: '🌌', dark: true, swatches: ['#2e3440', '#a3be8c', '#bf616a', '#d08770'] },
+  'solarized-light': { name: 'Solarized Light', emoji: '☀️', dark: false, swatches: ['#fdf6e3', '#268bd2', '#859900', '#cb4b16'] },
+  'solarized-dark': { name: 'Solarized Dark', emoji: '🌙', dark: true, swatches: ['#002b36', '#268bd2', '#859900', '#cb4b16'] },
+  'tokyo-night': { name: 'Tokyo Night', emoji: '🗼', dark: true, swatches: ['#1a1b26', '#7aa2f7', '#73daca', '#ff9e64'] },
+  'rose-pine': { name: 'Rosé Pine', emoji: '🌸', dark: true, swatches: ['#191724', '#c4a7e7', '#9ccfd8', '#f6c177'] },
 };
 
 export function PaletteSelector() {
@@ -25,15 +29,15 @@ export function PaletteSelector() {
 
   const isFlavorAvailable = (f: PaletteFlavor) => {
     if (mode === 'light') {
-      return f === 'latte' || f === 'nord-snow';
+      return f === 'latte' || f === 'nord-snow' || f === 'solarized-light';
     }
     // dark or oled
-    return f !== 'latte' && f !== 'nord-snow';
+    return f !== 'latte' && f !== 'nord-snow' && f !== 'solarized-light';
   };
 
   const getUnavailableMessage = (f: PaletteFlavor) => {
-    if (mode === 'light' && f !== 'latte' && f !== 'nord-snow') return 'Not available in light mode';
-    if ((mode === 'dark' || mode === 'oled') && (f === 'latte' || f === 'nord-snow')) return 'Not available in dark mode';
+    if (mode === 'light' && f !== 'latte' && f !== 'nord-snow' && f !== 'solarized-light') return 'Not available in light mode';
+    if ((mode === 'dark' || mode === 'oled') && (f === 'latte' || f === 'nord-snow' || f === 'solarized-light')) return 'Not available in dark mode';
     return '';
   };
 
@@ -88,7 +92,7 @@ export function PaletteSelector() {
                     {info.swatches.map((color, i) => (
                       <div
                         key={i}
-                        className="size-4 rounded-sm"
+                        className="size-4 rounded-sm transition-transform duration-200 hover:scale-110"
                         style={{ backgroundColor: color }}
                       />
                     ))}

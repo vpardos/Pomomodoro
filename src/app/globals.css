@@ -49,10 +49,22 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Animation tokens */
+  --animate-fade-in-up: fade-in-up 0.6s ease-out both;
+  --animate-scale-in: scale-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-pulse-ring: pulse-ring 1.5s ease-out infinite;
+  --animate-breathe: breathe 4s ease-in-out infinite;
+  --animate-blob-drift: blob-drift 20s ease-in-out infinite;
+  --animate-blob-drift-alt: blob-drift-alt 25s ease-in-out infinite;
+  --animate-blob-drift-slow: blob-drift-slow 30s ease-in-out infinite;
+  --animate-slide-in-right: slide-in-right 0.4s ease-out both;
+  --animate-spring-scale: spring-scale 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.5s linear infinite;
 }
 
 :root {
-  /* Fallback values - will be overridden by palette system */
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -91,7 +103,6 @@
 }
 
 .dark {
-  /* Fallback values - will be overridden by palette system */
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -129,7 +140,6 @@
 }
 
 .oled {
-  /* Pure black mode - will be overridden by palette system */
   --background: oklch(0 0 0);
   --foreground: oklch(0.95 0 0);
   --card: oklch(0.08 0 0);
@@ -175,9 +185,150 @@
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
     transition: background-color 0.4s ease, color 0.3s ease;
   }
   * {
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease;
+  }
+
+  /* Custom scrollbar (WebKit) */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--muted);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--muted-foreground);
+  }
+
+  /* Firefox scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--muted) transparent;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.015);
+  }
+}
+
+@keyframes blob-drift {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -40px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+}
+
+@keyframes blob-drift-alt {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-40px, 30px) scale(1.05);
+  }
+  66% {
+    transform: translate(25px, -25px) scale(1.15);
+  }
+}
+
+@keyframes blob-drift-slow {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(20px, -30px) scale(1.08);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes spring-scale {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
   }
 }

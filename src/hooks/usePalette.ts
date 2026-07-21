@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { flavors } from '@catppuccin/palette';
 import type { ThemeMode } from './useTheme';
 
-export type PaletteFlavor = 'latte' | 'frappe' | 'macchiato' | 'mocha' | 'dracula' | 'nord-polar' | 'nord-snow' | 'nord-frost' | 'nord-aurora';
+export type PaletteFlavor = 'latte' | 'frappe' | 'macchiato' | 'mocha' | 'dracula' | 'nord-polar' | 'nord-snow' | 'nord-frost' | 'nord-aurora' | 'solarized-light' | 'solarized-dark' | 'tokyo-night' | 'rose-pine';
 
 // Keep backward compatibility
 export type CatppuccinFlavor = PaletteFlavor;
@@ -123,6 +123,66 @@ const nordAuroraColors = {
   rest: '#88c0d0',
 };
 
+const solarizedLightColors = {
+  background: '#fdf6e3',
+  card: '#eee8d5',
+  foreground: '#073642',
+  primary: '#268bd2',
+  secondary: '#eee8d5',
+  muted: '#93a1a1',
+  accent: '#eee8d5',
+  destructive: '#dc322f',
+  border: '#93a1a1',
+  work: '#cb4b16',
+  break: '#859900',
+  rest: '#268bd2',
+};
+
+const solarizedDarkColors = {
+  background: '#002b36',
+  card: '#073642',
+  foreground: '#839496',
+  primary: '#268bd2',
+  secondary: '#073642',
+  muted: '#586e75',
+  accent: '#073642',
+  destructive: '#dc322f',
+  border: '#586e75',
+  work: '#cb4b16',
+  break: '#859900',
+  rest: '#268bd2',
+};
+
+const tokyoNightColors = {
+  background: '#1a1b26',
+  card: '#24283b',
+  foreground: '#a9b1d6',
+  primary: '#7aa2f7',
+  secondary: '#24283b',
+  muted: '#414868',
+  accent: '#24283b',
+  destructive: '#f7768e',
+  border: '#414868',
+  work: '#ff9e64',
+  break: '#73daca',
+  rest: '#7aa2f7',
+};
+
+const rosePineColors = {
+  background: '#191724',
+  card: '#1f1d2e',
+  foreground: '#e0def4',
+  primary: '#c4a7e7',
+  secondary: '#26233a',
+  muted: '#6e6a86',
+  accent: '#26233a',
+  destructive: '#eb6f92',
+  border: '#6e6a86',
+  work: '#f6c177',
+  break: '#9ccfd8',
+  rest: '#c4a7e7',
+};
+
 function getDefaultFlavor(mode: ThemeMode): PaletteFlavor {
   return mode === 'light' ? 'latte' : 'mocha';
 }
@@ -131,7 +191,7 @@ function loadPalette(): PaletteFlavor | null {
   if (typeof window === 'undefined') return null;
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    const validFlavors: PaletteFlavor[] = ['latte', 'frappe', 'macchiato', 'mocha', 'dracula', 'nord-polar', 'nord-snow', 'nord-frost', 'nord-aurora'];
+    const validFlavors: PaletteFlavor[] = ['latte', 'frappe', 'macchiato', 'mocha', 'dracula', 'nord-polar', 'nord-snow', 'nord-frost', 'nord-aurora', 'solarized-light', 'solarized-dark', 'tokyo-night', 'rose-pine'];
     if (stored && validFlavors.includes(stored as PaletteFlavor)) {
       return stored as PaletteFlavor;
     }
@@ -236,6 +296,14 @@ function applyPalette(flavor: PaletteFlavor, mode: ThemeMode) {
     applyCustomPalette(nordFrostColors, mode);
   } else if (flavor === 'nord-aurora') {
     applyCustomPalette(nordAuroraColors, mode);
+  } else if (flavor === 'solarized-light') {
+    applyCustomPalette(solarizedLightColors, mode);
+  } else if (flavor === 'solarized-dark') {
+    applyCustomPalette(solarizedDarkColors, mode);
+  } else if (flavor === 'tokyo-night') {
+    applyCustomPalette(tokyoNightColors, mode);
+  } else if (flavor === 'rose-pine') {
+    applyCustomPalette(rosePineColors, mode);
   } else {
     applyCatppuccinPalette(flavor, mode);
   }
@@ -269,14 +337,14 @@ export function usePalette(mode: ThemeMode) {
   const effectiveFlavor = useMemo(() => {
     if (mode === 'light') {
       // In light mode, only light-compatible flavors are allowed
-      if (flavor === 'latte' || flavor === 'nord-snow') {
+      if (flavor === 'latte' || flavor === 'nord-snow' || flavor === 'solarized-light') {
         return flavor;
       }
       // Default to latte if a dark flavor was selected
       return 'latte';
     }
     // In dark/oled mode, light-only flavors are not available
-    if ((mode === 'dark' || mode === 'oled') && (flavor === 'latte' || flavor === 'nord-snow')) {
+    if ((mode === 'dark' || mode === 'oled') && (flavor === 'latte' || flavor === 'nord-snow' || flavor === 'solarized-light')) {
       return 'mocha';
     }
     return flavor;

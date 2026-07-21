@@ -77,7 +77,7 @@ export function AlarmsCard({
                 value={label}
                 onChange={(e) => setLabel(e.target.value)}
                 placeholder="Optional"
-                className="text-sm"
+                className="text-sm focus-visible:shadow-md focus-visible:shadow-primary/10 transition-shadow"
                 aria-label="Alarm label"
               />
             </div>
@@ -109,9 +109,10 @@ export function AlarmsCard({
               {alarms.map((alarm, index) => (
                 <li
                   key={alarm.id}
-                  className={`flex items-center justify-between gap-2 py-2.5 ${
+                  className={`flex items-center justify-between gap-2 py-2.5 animate-slide-in-right ${
                     index !== alarms.length - 1 ? "border-b border-border/40" : ""
                   }`}
+                  style={{ animationDelay: `${index * 80}ms` }}
                 >
                   <div className="flex flex-col min-w-0">
                     <span
@@ -137,7 +138,7 @@ export function AlarmsCard({
                       variant="ghost"
                       size="icon-xs"
                       onClick={() => onRemoveAlarm(alarm.id)}
-                      className="text-muted-foreground hover:text-destructive"
+                      className="text-muted-foreground hover:text-destructive hover:rotate-12 hover:scale-110 transition-transform duration-200"
                       aria-label="Delete alarm"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
@@ -147,9 +148,9 @@ export function AlarmsCard({
               ))}
             </ul>
           ) : (
-            <div className="flex-1 grid place-items-center py-4 text-center">
+            <div className="flex-1 grid place-items-center py-4 text-center animate-fade-in-up">
               <div className="flex flex-col items-center gap-2 text-muted-foreground">
-                <Bell className="h-6 w-6 opacity-40" />
+                <Bell className="h-6 w-6 opacity-40 animate-float" />
                 <p className="text-sm">No alarms set</p>
                 <p className="text-xs">Add one above to get notified</p>
               </div>

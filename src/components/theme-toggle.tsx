@@ -46,7 +46,7 @@ export function ThemeToggle() {
                   onClick={() => setThemeMode(m)}
                   className={cn(
                     'flex items-center gap-3 rounded-md p-2 text-left transition-colors hover:bg-muted',
-                    isSelected && 'bg-muted ring-2 ring-primary'
+                    isSelected && 'bg-muted ring-2 ring-primary shadow-md shadow-primary/20'
                   )}
                   aria-pressed={isSelected}
                 >
