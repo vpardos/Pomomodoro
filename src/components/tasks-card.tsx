@@ -117,7 +117,7 @@ export function TasksCard({
             onKeyDown={handleAddKeyDown}
             placeholder={isMaxTasks ? "Max tasks reached" : "Add a task…"}
             disabled={isMaxTasks}
-            className="text-sm focus-visible:shadow-md focus-visible:shadow-primary/10 transition-shadow"
+            className="text-sm border-foreground/30 focus-visible:border-primary focus-visible:shadow-md focus-visible:shadow-primary/10 transition-all"
             aria-label="New task"
           />
           <Button
