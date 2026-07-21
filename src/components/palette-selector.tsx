@@ -56,11 +56,11 @@ export function PaletteSelector() {
         <Palette className="size-4" />
         <span className="hidden min-[1024px]:inline">Color Palette</span>
       </PopoverTrigger>
-      <PopoverContent className="w-64 p-0 overflow-hidden flex flex-col" align="end">
-        <div className="px-3 pt-3 pb-2 border-b border-border/40 shrink-0">
+      <PopoverContent className="w-64 p-0 gap-0 overflow-hidden flex flex-col" align="end">
+        <div className="px-3 py-2 border-b border-border/40 shrink-0">
           <h3 className="text-sm font-semibold text-foreground">Color Palette</h3>
         </div>
-        <div className="flex flex-col gap-1 max-h-[240px] overflow-y-auto pb-2 px-3">
+        <div className="flex flex-col gap-0 max-h-[240px] overflow-y-auto pb-2 px-3">
           {([...Object.keys(flavorInfo) as PaletteFlavor[]]).sort((a, b) => {
               const aAvailable = isFlavorAvailable(a);
               const bAvailable = isFlavorAvailable(b);
