@@ -12,6 +12,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 import { PomodoroSettings } from '@/hooks/usePomodoro';
 
 interface SettingsDialogProps {
@@ -25,6 +26,7 @@ export function SettingsDialog({ settings, onUpdateSettings }: SettingsDialogPro
   const [shortBreakMinutes, setShortBreakMinutes] = useState(Math.floor(settings.shortBreakDuration / 60));
   const [longBreakMinutes, setLongBreakMinutes] = useState(Math.floor(settings.longBreakDuration / 60));
   const [longBreakInterval, setLongBreakInterval] = useState(settings.longBreakInterval);
+  const [animationsEnabled, setAnimationsEnabled] = useState(settings.animationsEnabled);
 
   const handleSave = () => {
     const newSettings: PomodoroSettings = {
@@ -32,6 +34,7 @@ export function SettingsDialog({ settings, onUpdateSettings }: SettingsDialogPro
       shortBreakDuration: Math.max(1, Math.min(60, shortBreakMinutes)) * 60,
       longBreakDuration: Math.max(1, Math.min(60, longBreakMinutes)) * 60,
       longBreakInterval: Math.max(1, Math.min(10, longBreakInterval)),
+      animationsEnabled,
     };
     onUpdateSettings(newSettings);
     setOpen(false);
@@ -57,6 +60,23 @@ export function SettingsDialog({ settings, onUpdateSettings }: SettingsDialogPro
           <DialogTitle>Timer Settings</DialogTitle>
         </DialogHeader>
         <div className="grid gap-6 py-4">
+          <div className="flex items-center justify-between gap-4 rounded-lg border border-border/60 bg-muted/30 px-3 py-2.5">
+            <div className="grid gap-0.5">
+              <Label htmlFor="animations" className="cursor-pointer">
+                Animations
+              </Label>
+              <p className="text-xs text-muted-foreground">
+                Disable to reduce GPU usage and avoid motion.
+              </p>
+            </div>
+            <Switch
+              id="animations"
+              size="sm"
+              checked={animationsEnabled}
+              onCheckedChange={setAnimationsEnabled}
+              aria-label="Enable animations"
+            />
+          </div>
           <div className="grid gap-2">
             <Label htmlFor="work">Focus Duration (minutes)</Label>
             <Input

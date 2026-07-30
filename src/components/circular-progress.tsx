@@ -8,10 +8,9 @@ interface CircularProgressProps {
   progress: number;
   phase: Phase;
   timeLeft: number;
-  isRunning?: boolean;
 }
 
-export const CircularProgress = React.memo(function CircularProgress({ progress, phase, timeLeft, isRunning }: CircularProgressProps) {
+export const CircularProgress = React.memo(function CircularProgress({ progress, phase, timeLeft }: CircularProgressProps) {
   const radius = 120;
   const strokeWidth = 8;
   const normalizedRadius = radius - strokeWidth / 2;
@@ -29,7 +28,7 @@ export const CircularProgress = React.memo(function CircularProgress({ progress,
   const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
   return (
-    <div className={cn("relative flex items-center justify-center", isRunning && "animate-breathe")}>
+    <div className="relative flex items-center justify-center">
       <svg height={radius * 2} width={radius * 2} className="transform -rotate-90">
         <circle
           className="text-muted"

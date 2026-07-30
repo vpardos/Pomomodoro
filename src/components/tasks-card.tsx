@@ -218,7 +218,7 @@ export function TasksCard({
           ) : mounted ? (
             <div className="flex-1 grid place-items-center py-8 text-center animate-fade-in-up">
               <div className="flex flex-col items-center gap-2 text-muted-foreground">
-                <ListTodo className="h-6 w-6 opacity-40 animate-float" />
+                <ListTodo className="h-6 w-6 opacity-40" />
                 <p className="text-sm">No tasks yet</p>
                 <p className="text-xs">Add one above to get started</p>
               </div>

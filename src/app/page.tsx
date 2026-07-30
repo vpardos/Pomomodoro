@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePomodoro, Phase } from "@/hooks/usePomodoro";
 import { useNotifications } from "@/hooks/useNotifications";
@@ -23,12 +23,6 @@ const phaseLabels: Record<Phase, string> = {
   work: "Focus",
   shortBreak: "Short Break",
   longBreak: "Long Break",
-};
-
-const phaseAccentVar = {
-  work: "var(--accent-work)",
-  shortBreak: "var(--accent-break)",
-  longBreak: "var(--accent-rest)",
 };
 
 export default function Home() {
@@ -79,28 +73,21 @@ export default function Home() {
 
   const [progressStyle, setProgressStyle] = useState<ProgressStyle>("circular");
 
-  const phaseAccent = phaseAccentVar[phase];
+  // Sync the user's "disable animations" setting to <html> so the global
+  // CSS rule in globals.css can short-circuit every infinite animation.
+  useEffect(() => {
+    const root = document.documentElement;
+    if (settings.animationsEnabled) {
+      root.classList.remove("animations-off");
+    } else {
+      root.classList.add("animations-off");
+    }
+  }, [settings.animationsEnabled]);
 
   return (
     <div className="flex flex-col flex-1 bg-background relative">
-      {/* Ambient background blobs */}
-      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden" aria-hidden="true">
-        <div
-          className="absolute top-[10%] left-[15%] w-[500px] h-[500px] rounded-full blur-[120px] opacity-[0.04] animate-blob-drift"
-          style={{ backgroundColor: phaseAccent }}
-        />
-        <div
-          className="absolute bottom-[20%] right-[10%] w-[400px] h-[400px] rounded-full blur-[100px] opacity-[0.05] animate-blob-drift-alt"
-          style={{ backgroundColor: phaseAccent }}
-        />
-        <div
-          className="absolute top-[50%] left-[50%] w-[300px] h-[300px] rounded-full blur-[80px] opacity-[0.03] animate-blob-drift-slow"
-          style={{ backgroundColor: phaseAccent }}
-        />
-      </div>
-
       {/* HEADER */}
-      <header className="sticky top-0 z-10 border-b border-border/60 bg-background/70 backdrop-blur-xl transition-all duration-300">
+      <header className="sticky top-0 z-10 border-b border-border/60 bg-background transition-all duration-300">
         <div className="container mx-auto px-4 sm:px-6 py-3.5 sm:py-4 flex items-center justify-between gap-3">
           <Link
             href="/"
@@ -142,7 +129,7 @@ export default function Home() {
                 </CardTitle>
                 {/* Progress style switch */}
                 <div
-                  className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center rounded-md border border-border/60 bg-background/60 p-0.5"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center rounded-md border border-border/60 bg-background p-0.5"
                   role="group"
                   aria-label="Progress style"
                 >
@@ -188,7 +175,6 @@ export default function Home() {
                   phase={phase}
                   timeLeft={timeLeft}
                   style={progressStyle}
-                  isRunning={isRunning}
                 />
                 <SessionDots
                   completedCycles={completedCycles}
@@ -280,7 +266,7 @@ export default function Home() {
       </main>
 
       {/* FOOTER */}
-      <footer className="border-t border-border/60 bg-background/50 backdrop-blur-sm">
+      <footer className="border-t border-border/60 bg-background">
         <div className="container mx-auto px-4 sm:px-6 py-5 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-xs text-muted-foreground">
           <span>Pomomodoro</span>
           <span aria-hidden="true">·</span>
