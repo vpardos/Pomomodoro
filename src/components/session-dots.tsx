@@ -56,12 +56,6 @@ export const SessionDots = React.memo(function SessionDots({
             }
             aria-hidden="true"
           >
-            {isCurrent && (
-              <span
-                className="absolute -inset-1 rounded-full border-2 animate-pulse-ring"
-                style={{ borderColor: phaseAccent }}
-              />
-            )}
           </span>
         );
       })}
