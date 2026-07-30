@@ -228,6 +228,24 @@
   }
 }
 
+/* Single bounce when a session dot completes. Compositor-only
+   (transform only) — zero layout, zero paint per frame. */
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1.25);
+  }
+}
+
+.animate-pop {
+  animation: pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
 /* Honor user's reduced-motion preference. Pauses infinite loops
    and skips entrance animations. */
 @media (prefers-reduced-motion: reduce) {

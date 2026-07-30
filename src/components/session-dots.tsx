@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { Phase } from '@/hooks/usePomodoro';
 
@@ -24,6 +24,20 @@ export const SessionDots = React.memo(function SessionDots({
   const total = Math.max(1, longBreakInterval);
   const currentIndex = phase === 'work' ? completedCycles % total : -1;
 
+  // Track which dot just completed so we can trigger the pop animation.
+  const prevCompletedRef = useRef(completedCycles);
+  const [justCompletedIdx, setJustCompletedIdx] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (completedCycles > prevCompletedRef.current) {
+      setJustCompletedIdx((completedCycles - 1) % total);
+      const timer = setTimeout(() => setJustCompletedIdx(null), 350);
+      prevCompletedRef.current = completedCycles;
+      return () => clearTimeout(timer);
+    }
+    prevCompletedRef.current = completedCycles;
+  }, [completedCycles, total]);
+
   return (
     <div
       className="flex items-center justify-center gap-2"
@@ -42,21 +56,25 @@ export const SessionDots = React.memo(function SessionDots({
               'relative inline-flex items-center justify-center size-2 rounded-full transition-all',
               isEmpty && 'bg-muted',
               isCompleted && 'scale-125',
+              i === justCompletedIdx && 'animate-pop',
             )}
             style={
               isCompleted
-                ? { 
-                    backgroundColor: phaseAccent, 
+                ? {
+                    backgroundColor: phaseAccent,
                     transitionDuration: '500ms',
                     transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
                   }
                 : isCurrent
-                  ? { backgroundColor: 'transparent', boxShadow: `inset 0 0 0 2px ${phaseAccent}` }
-                  : undefined
+                  ? {
+                      opacity: 1,
+                      backgroundColor: 'transparent',
+                      boxShadow: `inset 0 0 0 2px ${phaseAccent}`,
+                    }
+                  : { opacity: 0.4 }
             }
             aria-hidden="true"
-          >
-          </span>
+          />
         );
       })}
     </div>
