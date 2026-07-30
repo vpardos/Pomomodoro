@@ -313,15 +313,6 @@
   }
 }
 
-/* Ambient blob elements get their own compositor layer so the
-   browser doesn't re-promote them on every frame the transform changes. */
-.animate-blob-drift,
-.animate-blob-drift-alt,
-.animate-blob-drift-slow {
-  will-change: transform;
-  transform: translateZ(0);
-}
-
 /* Honor user's reduced-motion preference. Pauses infinite loops
    and skips entrance animations. */
 @media (prefers-reduced-motion: reduce) {

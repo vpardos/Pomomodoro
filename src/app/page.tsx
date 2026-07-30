@@ -116,19 +116,21 @@ export default function Home() {
 
   return (
     <div className="flex flex-col flex-1 bg-background relative">
-      {/* Ambient background blobs */}
+      {/* Ambient background blobs — radial gradient stands in for a blurred
+          disc so the compositor doesn't have to re-rasterize a Gaussian
+          blur kernel on every animation frame. */}
       <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden" aria-hidden="true">
         <div
-          className="absolute top-[10%] left-[15%] w-[500px] h-[500px] rounded-full blur-[80px] opacity-[0.04] animate-blob-drift"
-          style={{ backgroundColor: phaseAccent }}
+          className="absolute top-[10%] left-[15%] w-[500px] h-[500px] opacity-[0.12] animate-blob-drift"
+          style={{ background: `radial-gradient(circle at center, ${phaseAccent} 0%, ${phaseAccent} 35%, transparent 100%)` }}
         />
         <div
-          className="absolute bottom-[20%] right-[10%] w-[400px] h-[400px] rounded-full blur-[64px] opacity-[0.05] animate-blob-drift-alt"
-          style={{ backgroundColor: phaseAccent }}
+          className="absolute bottom-[20%] right-[10%] w-[400px] h-[400px] opacity-[0.14] animate-blob-drift-alt"
+          style={{ background: `radial-gradient(circle at center, ${phaseAccent} 0%, ${phaseAccent} 35%, transparent 100%)` }}
         />
         <div
-          className="absolute top-[50%] left-[50%] w-[300px] h-[300px] rounded-full blur-[48px] opacity-[0.03] animate-blob-drift-slow"
-          style={{ backgroundColor: phaseAccent }}
+          className="absolute top-[50%] left-[50%] w-[300px] h-[300px] opacity-[0.10] animate-blob-drift-slow"
+          style={{ background: `radial-gradient(circle at center, ${phaseAccent} 0%, ${phaseAccent} 35%, transparent 100%)` }}
         />
       </div>
 
