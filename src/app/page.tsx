@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePomodoro, Phase } from "@/hooks/usePomodoro";
 import { useNotifications } from "@/hooks/useNotifications";
@@ -79,6 +79,39 @@ export default function Home() {
 
   const [progressStyle, setProgressStyle] = useState<ProgressStyle>("circular");
 
+  // Sync the user's "disable animations" setting to <html> so the global
+  // CSS rule in globals.css can short-circuit every infinite animation.
+  useEffect(() => {
+    const root = document.documentElement;
+    if (settings.animationsEnabled) {
+      root.classList.remove("animations-off");
+    } else {
+      root.classList.add("animations-off");
+    }
+  }, [settings.animationsEnabled]);
+
+  // Pause ambient blob animations while the tab is hidden so the GPU
+  // compositor isn't doing work the user can't see.
+  useEffect(() => {
+    const blobs = document.querySelectorAll<HTMLElement>(
+      ".animate-blob-drift, .animate-blob-drift-alt, .animate-blob-drift-slow",
+    );
+    const onVisibilityChange = () => {
+      const play = document.visibilityState === "visible";
+      blobs.forEach((el) => {
+        el.style.animationPlayState = play ? "running" : "paused";
+      });
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    onVisibilityChange();
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      blobs.forEach((el) => {
+        el.style.animationPlayState = "";
+      });
+    };
+  }, []);
+
   const phaseAccent = phaseAccentVar[phase];
 
   return (
@@ -86,15 +119,15 @@ export default function Home() {
       {/* Ambient background blobs */}
       <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden" aria-hidden="true">
         <div
-          className="absolute top-[10%] left-[15%] w-[500px] h-[500px] rounded-full blur-[120px] opacity-[0.04] animate-blob-drift"
+          className="absolute top-[10%] left-[15%] w-[500px] h-[500px] rounded-full blur-[80px] opacity-[0.04] animate-blob-drift"
           style={{ backgroundColor: phaseAccent }}
         />
         <div
-          className="absolute bottom-[20%] right-[10%] w-[400px] h-[400px] rounded-full blur-[100px] opacity-[0.05] animate-blob-drift-alt"
+          className="absolute bottom-[20%] right-[10%] w-[400px] h-[400px] rounded-full blur-[64px] opacity-[0.05] animate-blob-drift-alt"
           style={{ backgroundColor: phaseAccent }}
         />
         <div
-          className="absolute top-[50%] left-[50%] w-[300px] h-[300px] rounded-full blur-[80px] opacity-[0.03] animate-blob-drift-slow"
+          className="absolute top-[50%] left-[50%] w-[300px] h-[300px] rounded-full blur-[48px] opacity-[0.03] animate-blob-drift-slow"
           style={{ backgroundColor: phaseAccent }}
         />
       </div>
@@ -188,7 +221,6 @@ export default function Home() {
                   phase={phase}
                   timeLeft={timeLeft}
                   style={progressStyle}
-                  isRunning={isRunning}
                 />
                 <SessionDots
                   completedCycles={completedCycles}

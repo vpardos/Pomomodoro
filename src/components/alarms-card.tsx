@@ -150,7 +150,7 @@ export function AlarmsCard({
           ) : (
             <div className="flex-1 grid place-items-center py-4 text-center animate-fade-in-up">
               <div className="flex flex-col items-center gap-2 text-muted-foreground">
-                <Bell className="h-6 w-6 opacity-40 animate-float" />
+                <Bell className="h-6 w-6 opacity-40" />
                 <p className="text-sm">No alarms set</p>
                 <p className="text-xs">Add one above to get notified</p>
               </div>

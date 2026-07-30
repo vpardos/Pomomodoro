@@ -8,10 +8,9 @@ interface LinearProgressProps {
   progress: number;
   phase: Phase;
   timeLeft: number;
-  isRunning?: boolean;
 }
 
-export const LinearProgress = React.memo(function LinearProgress({ progress, phase, timeLeft, isRunning }: LinearProgressProps) {
+export const LinearProgress = React.memo(function LinearProgress({ progress, phase, timeLeft }: LinearProgressProps) {
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
   const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
@@ -23,7 +22,7 @@ export const LinearProgress = React.memo(function LinearProgress({ progress, pha
   }[phase];
 
   return (
-    <div className={cn("w-full max-w-md flex flex-col gap-6", isRunning && "animate-breathe")}>
+    <div className="w-full max-w-md flex flex-col gap-6">
       <div className="text-center">
         <span 
           className="text-6xl min-[1024px]:text-7xl font-bold text-foreground font-mono tabular-nums tracking-tight transition-colors duration-700"

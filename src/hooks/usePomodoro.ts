@@ -9,6 +9,7 @@ export interface PomodoroSettings {
   shortBreakDuration: number;
   longBreakDuration: number;
   longBreakInterval: number;
+  animationsEnabled: boolean;
 }
 
 const DEFAULT_SETTINGS: PomodoroSettings = {
@@ -16,6 +17,7 @@ const DEFAULT_SETTINGS: PomodoroSettings = {
   shortBreakDuration: 5 * 60,
   longBreakDuration: 15 * 60,
   longBreakInterval: 4,
+  animationsEnabled: true,
 };
 
 const STORAGE_KEY = 'pomodoro-settings';
@@ -25,7 +27,10 @@ function loadSettings(): PomodoroSettings {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
-      return JSON.parse(stored);
+      const parsed = JSON.parse(stored);
+      // Backfill fields added in later versions so old localStorage
+      // payloads still produce a valid settings object.
+      return { ...DEFAULT_SETTINGS, ...parsed };
     }
   } catch (e) {
     console.error('Failed to load settings:', e);
