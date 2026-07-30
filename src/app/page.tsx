@@ -25,12 +25,6 @@ const phaseLabels: Record<Phase, string> = {
   longBreak: "Long Break",
 };
 
-const phaseAccentVar = {
-  work: "var(--accent-work)",
-  shortBreak: "var(--accent-break)",
-  longBreak: "var(--accent-rest)",
-};
-
 export default function Home() {
   const {
     soundEnabled,
@@ -90,48 +84,8 @@ export default function Home() {
     }
   }, [settings.animationsEnabled]);
 
-  // Pause ambient blob animations while the tab is hidden so the GPU
-  // compositor isn't doing work the user can't see.
-  useEffect(() => {
-    const blobs = document.querySelectorAll<HTMLElement>(
-      ".animate-blob-drift, .animate-blob-drift-alt, .animate-blob-drift-slow",
-    );
-    const onVisibilityChange = () => {
-      const play = document.visibilityState === "visible";
-      blobs.forEach((el) => {
-        el.style.animationPlayState = play ? "running" : "paused";
-      });
-    };
-    document.addEventListener("visibilitychange", onVisibilityChange);
-    onVisibilityChange();
-    return () => {
-      document.removeEventListener("visibilitychange", onVisibilityChange);
-      blobs.forEach((el) => {
-        el.style.animationPlayState = "";
-      });
-    };
-  }, []);
-
-  const phaseAccent = phaseAccentVar[phase];
-
   return (
     <div className="flex flex-col flex-1 bg-background relative">
-      {/* Ambient background blobs — fully opaque solid discs (no transparency). */}
-      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden" aria-hidden="true">
-        <div
-          className="absolute top-[10%] left-[15%] w-[500px] h-[500px] rounded-full animate-blob-drift"
-          style={{ background: phaseAccent }}
-        />
-        <div
-          className="absolute bottom-[20%] right-[10%] w-[400px] h-[400px] rounded-full animate-blob-drift-alt"
-          style={{ background: phaseAccent }}
-        />
-        <div
-          className="absolute top-[50%] left-[50%] w-[300px] h-[300px] rounded-full animate-blob-drift-slow"
-          style={{ background: phaseAccent }}
-        />
-      </div>
-
       {/* HEADER */}
       <header className="sticky top-0 z-10 border-b border-border/60 bg-background transition-all duration-300">
         <div className="container mx-auto px-4 sm:px-6 py-3.5 sm:py-4 flex items-center justify-between gap-3">
@@ -175,7 +129,7 @@ export default function Home() {
                 </CardTitle>
                 {/* Progress style switch */}
                 <div
-                  className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center rounded-md border border-border/60 bg-background/60 p-0.5"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center rounded-md border border-border/60 bg-background p-0.5"
                   role="group"
                   aria-label="Progress style"
                 >
@@ -312,7 +266,7 @@ export default function Home() {
       </main>
 
       {/* FOOTER */}
-      <footer className="border-t border-border/60 bg-background/50 backdrop-blur-sm">
+      <footer className="border-t border-border/60 bg-background">
         <div className="container mx-auto px-4 sm:px-6 py-5 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-xs text-muted-foreground">
           <span>Pomomodoro</span>
           <span aria-hidden="true">·</span>

@@ -52,13 +52,7 @@
 
   /* Animation tokens */
   --animate-fade-in-up: fade-in-up 0.6s ease-out forwards;
-  --animate-scale-in: scale-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  --animate-blob-drift: blob-drift 20s ease-in-out infinite;
-  --animate-blob-drift-alt: blob-drift-alt 25s ease-in-out infinite;
-  --animate-blob-drift-slow: blob-drift-slow 30s ease-in-out infinite;
   --animate-slide-in-right: slide-in-right 0.4s ease-out forwards;
-  --animate-spring-scale: spring-scale 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  --animate-shimmer: shimmer 2.5s linear infinite;
 }
 
 :root {
@@ -223,50 +217,6 @@
   }
 }
 
-@keyframes scale-in {
-  from {
-    opacity: 0;
-    transform: scale(0.6);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes blob-drift {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-  }
-  33% {
-    transform: translate(30px, -40px) scale(1.1);
-  }
-  66% {
-    transform: translate(-20px, 20px) scale(0.95);
-  }
-}
-
-@keyframes blob-drift-alt {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-  }
-  33% {
-    transform: translate(-40px, 30px) scale(1.05);
-  }
-  66% {
-    transform: translate(25px, -25px) scale(1.15);
-  }
-}
-
-@keyframes blob-drift-slow {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(20px, -30px) scale(1.08);
-  }
-}
-
 @keyframes slide-in-right {
   from {
     opacity: 0;
@@ -275,29 +225,6 @@
   to {
     opacity: 1;
     transform: translateX(0);
-  }
-}
-
-@keyframes spring-scale {
-  0% {
-    transform: scale(0.5);
-    opacity: 0;
-  }
-  70% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
   }
 }
 
