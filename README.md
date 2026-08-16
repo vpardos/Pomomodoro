@@ -23,6 +23,7 @@ Live at [https://pomomodoro.vpardos.dev](https://pomomodoro.vpardos.dev)
 - **Smooth Scrolling & Custom Scrollbar** — Themed, thin scrollbars across all browsers
 - **Settings Persistence** — All settings saved to localStorage
 - **Dynamic Page Title** — Shows remaining time and current phase in browser tab
+- **Multilingual** — Full English and Spanish UI translations with a language switcher (see [Internationalization](#internationalization))
 
 ## Getting Started
 
@@ -75,6 +76,7 @@ npm run lint
 - **Styling**: Tailwind CSS v4
 - **UI Components**: shadcn/ui v4 with @base-ui/react
 - **Icons**: lucide-react
+- **Internationalization**: next-intl
 - **Language**: TypeScript
 
 ## Design System
@@ -101,6 +103,24 @@ The app includes a rich set of custom CSS keyframe animations defined in `src/ap
 **Extras**: Dracula, Solarized Light, Solarized Dark, Tokyo Night, Rosé Pine
 
 Each palette is dynamically applied via CSS custom properties using OKLCH (Catppuccin) or hex values (custom palettes).
+
+## Internationalization
+
+Pomomodoro is fully translated into English and Spanish using [next-intl](https://next-intl.dev/). The UI language is selectable from the topbar language switcher, and the choice is remembered across visits.
+
+- **Supported locales**: `en` (English, default) and `es` (Spanish)
+- **Routing**: Locale is always prefixed in the URL — `/en` and `/es` (configured with `localePrefix: 'always'`)
+- **Persistence**: The selected locale is stored in a cookie (1-year expiry) so it survives reloads
+- **Translation files**: `messages/en.json` and `messages/es.json`
+- **Configuration**: `src/i18n/routing.ts` (locale list, default, prefix, cookie) and `src/i18n/request.ts` (server-side message loading)
+
+### Adding a new language
+
+1. Create `messages/<locale>.json` by copying `messages/en.json` and translating the values (keep the keys intact).
+2. Add the locale code to the `locales` array in `src/i18n/routing.ts`.
+3. Add a display name for the locale under the `LocaleSwitcher` key in both `messages/en.json` and `messages/es.json` (and the new file).
+
+The language switcher in the topbar automatically picks up any locale listed in `routing.locales`.
 
 ## License
 
