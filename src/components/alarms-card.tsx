@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alarm } from "@/hooks/useNotifications";
 import { Bell, Plus, Trash2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface AlarmsCardProps {
   alarms: Alarm[];
@@ -58,12 +59,15 @@ export function AlarmsCard({
               <Label htmlFor={timeId} className="text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
                 Time
               </Label>
-              <Input
+              <input
                 id={timeId}
                 type="time"
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
-                className="w-[120px] font-mono tabular-nums border-border focus-visible:border-primary focus-visible:shadow-md focus-visible:shadow-primary/10 transition-all"
+                className={cn(
+                  "h-8 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm dark:bg-input/30",
+                  "w-[120px] font-mono tabular-nums border-border focus-visible:border-primary focus-visible:shadow-md focus-visible:shadow-primary/10 transition-all"
+                )}
                 aria-label="Alarm time"
               />
             </div>

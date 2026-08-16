@@ -16,7 +16,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { PaletteSelector } from "@/components/palette-selector";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Circle, Square, Play, Pause, RotateCcw, SkipForward, Timer } from "lucide-react";
+import { Circle, Square, Play, Pause, RotateCcw, SkipForward } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const phaseLabels: Record<Phase, string> = {
@@ -98,7 +98,17 @@ export default function Home() {
               aria-hidden="true"
               className="grid place-items-center size-9 rounded-lg bg-foreground text-background transition-transform duration-200 hover:scale-105"
             >
-              <Timer className="size-4" />
+              <svg
+                className="size-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M3 5.5L5 3.5M21 5.5L19 3.5M9 12.5L11 14.5L15 10.5M20 12.5C20 16.9183 16.4183 20.5 12 20.5C7.58172 20.5 4 16.9183 4 12.5C4 8.08172 7.58172 4.5 12 4.5C16.4183 4.5 20 8.08172 20 12.5Z" />
+              </svg>
             </span>
             <span className="text-lg sm:text-xl font-semibold tracking-tight">
               Pomomodoro
@@ -268,11 +278,18 @@ export default function Home() {
       {/* FOOTER */}
       <footer className="border-t border-border/60 bg-background">
         <div className="container mx-auto px-4 sm:px-6 py-5 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-xs text-muted-foreground">
-          <span>Pomomodoro</span>
+          <a
+            href="https://github.com/vpardos/Pomomodoro"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-foreground/80 hover:text-foreground transition-colors hover:underline underline-offset-4"
+          >
+            Pomomodoro
+          </a>
           <span aria-hidden="true">·</span>
           <span>created by</span>
           <a
-            href="https://github.com/vpardos/Pomomodoro"
+            href="https://github.com/vpardos"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 font-medium text-foreground/80 hover:text-foreground transition-colors hover:underline underline-offset-4"
