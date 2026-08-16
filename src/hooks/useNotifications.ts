@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useTranslations } from 'next-intl';
 
 const SOUND_KEY = "pomodoro-sound-enabled";
 const NOTIFICATION_KEY = "pomodoro-notifications-enabled";
@@ -63,24 +64,23 @@ function getInitialPermission(): NotificationPermission {
 }
 
 export function useNotifications() {
-  const [soundEnabled, setSoundEnabled] = useState(() =>
-    loadBool(SOUND_KEY, true),
-  );
-  const [notificationsEnabled, setNotificationsEnabled] = useState(() =>
-    loadBool(NOTIFICATION_KEY, false),
-  );
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [permission, setPermission] =
     useState<NotificationPermission>(getInitialPermission);
   const [alarms, setAlarms] = useState<Alarm[]>(() => loadAlarms());
   const lastCheckedMinuteRef = useRef<string>("");
 
-  useEffect(() => {
-    saveBool(SOUND_KEY, soundEnabled);
-  }, [soundEnabled]);
+  const t = useTranslations('Notifications');
 
   useEffect(() => {
-    saveBool(NOTIFICATION_KEY, notificationsEnabled);
-  }, [notificationsEnabled]);
+    const initialSound = loadBool(SOUND_KEY, true);
+    const initialNotifications = loadBool(NOTIFICATION_KEY, false);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSoundEnabled(initialSound);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setNotificationsEnabled(initialNotifications);
+  }, []);
 
   useEffect(() => {
     saveAlarms(alarms);
@@ -102,15 +102,19 @@ export function useNotifications() {
   }, []);
 
   const toggleSound = useCallback(() => {
-    setSoundEnabled((prev) => !prev);
-  }, []);
+    const next = !soundEnabled;
+    setSoundEnabled(next);
+    saveBool(SOUND_KEY, next);
+  }, [soundEnabled]);
 
   const toggleNotifications = useCallback(async () => {
     if (!notificationsEnabled) {
       const granted = await requestPermission();
       if (!granted) return;
     }
-    setNotificationsEnabled((prev) => !prev);
+    const next = !notificationsEnabled;
+    setNotificationsEnabled(next);
+    saveBool(NOTIFICATION_KEY, next);
   }, [notificationsEnabled, requestPermission]);
 
   const sendNotification = useCallback(
@@ -160,16 +164,16 @@ export function useNotifications() {
         if (soundEnabled) {
           import("@/lib/alarm").then(({ playAlarm }) => playAlarm());
         }
-        const labels = matchingAlarms.map((a) => a.label || "Alarm");
+        const labels = matchingAlarms.map((a) => a.label || t('alarmFallback'));
         const title =
-          labels.length === 1 ? labels[0] : `${labels.length} alarms`;
+          labels.length === 1 ? labels[0] : t('alarmsCount', { count: labels.length });
         sendNotification(title, title);
       }
     };
 
     const interval = setInterval(checkAlarms, 1000);
     return () => clearInterval(interval);
-  }, [alarms, sendNotification, soundEnabled]);
+  }, [alarms, sendNotification, soundEnabled, t]);
 
   return {
     soundEnabled,

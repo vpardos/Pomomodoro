@@ -1,19 +1,21 @@
 'use client';
 
 import { useThemeContext } from '@/components/theme-provider';
+import { useTranslations } from 'next-intl';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { Sun, Moon, Circle, Monitor } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { ThemeMode } from '@/hooks/useTheme';
 
-const themeInfo: Record<ThemeMode, { name: string; icon: typeof Sun; description: string }> = {
-  light: { name: 'Light', icon: Sun, description: 'Standard light theme' },
-  dark: { name: 'Dark', icon: Moon, description: 'Easy on the eyes' },
-  oled: { name: 'OLED', icon: Circle, description: 'Pure black for OLED displays' },
+const themeInfo: Record<ThemeMode, { icon: typeof Sun }> = {
+  light: { icon: Sun },
+  dark: { icon: Moon },
+  oled: { icon: Circle },
 };
 
 export function ThemeToggle() {
+  const t = useTranslations('Theme');
   const { mode, setThemeMode } = useThemeContext();
 
   return (
@@ -24,16 +26,16 @@ export function ThemeToggle() {
             variant="outline"
             size="sm"
             className="gap-2"
-            aria-label="Change theme"
+            aria-label={t('trigger.aria')}
           />
         }
       >
         <Monitor className="size-4" />
-        <span className="hidden min-[1024px]:inline">Theme</span>
+        <span className="hidden min-[1024px]:inline">{t('trigger.label')}</span>
       </PopoverTrigger>
       <PopoverContent className="w-56" align="end">
         <div className="flex flex-col gap-2">
-          <h3 className="text-sm font-semibold text-foreground">Theme Mode</h3>
+          <h3 className="text-sm font-semibold text-foreground">{t('heading')}</h3>
           <div className="flex flex-col gap-1">
             {(Object.keys(themeInfo) as ThemeMode[]).map((m) => {
               const info = themeInfo[m];
@@ -53,10 +55,10 @@ export function ThemeToggle() {
                   <Icon className="size-4 text-foreground" />
                   <div className="flex flex-col">
                     <span className="text-sm font-medium text-foreground">
-                      {info.name}
+                      {t(`modes.${m}.name`)}
                     </span>
                     <span className="text-xs text-muted-foreground">
-                      {info.description}
+                      {t(`modes.${m}.description`)}
                     </span>
                   </div>
                 </button>

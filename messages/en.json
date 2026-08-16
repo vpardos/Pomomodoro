@@ -1,0 +1,166 @@
+{
+  "Metadata": {
+    "title": "Pomomodoro - Pomodoro Timer",
+    "description": "A Pomodoro timer with customizable work and break sessions, alarms, notifications, and multiple color themes."
+  },
+  "Timer": {
+    "phase": {
+      "work": "Focus",
+      "shortBreak": "Short Break",
+      "longBreak": "Long Break"
+    },
+    "sessionOf": "Session {current} of {total}",
+    "docTitle": "({time}) {phase} | Pomomodoro",
+    "controls": {
+      "reset": "Reset timer",
+      "pause": "Pause timer",
+      "pauseLabel": "Pause",
+      "start": "Start timer",
+      "startLabel": "Play",
+      "skip": "Skip to next phase"
+    },
+    "progressStyle": {
+      "label": "Progress style",
+      "circular": "Circular progress",
+      "linear": "Linear progress"
+    },
+    "header": {
+      "home": "Home",
+      "settings": "Settings"
+    },
+    "footer": {
+      "createdBy": "created by"
+    }
+  },
+  "Notifications": {
+    "breakOver": {
+      "title": "Break is over!",
+      "body": "Break is over!"
+    },
+    "focusComplete": {
+      "title": "Focus session complete!",
+      "body": "Focus session complete! Time for a break."
+    },
+    "alarmFallback": "Alarm",
+    "alarmsCount": "{count} alarms"
+  },
+  "Settings": {
+    "trigger": {
+      "aria": "Pomodoro settings",
+      "label": "Settings"
+    },
+    "title": "Timer Settings",
+    "animations": {
+      "label": "Animations",
+      "description": "Disable to reduce motion.",
+      "aria": "Enable animations"
+    },
+    "focusDuration": "Focus Duration (minutes)",
+    "shortBreak": "Short Break (minutes)",
+    "longBreak": "Long Break (minutes)",
+    "longBreakInterval": "Long Break Interval (cycles)",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "Tasks": {
+    "title": "Tasks",
+    "placeholder": {
+      "default": "Add a task…",
+      "max": "Max tasks reached"
+    },
+    "newTaskAria": "New task",
+    "addAria": "Add task",
+    "markIncomplete": "Mark task incomplete",
+    "markComplete": "Mark task complete",
+    "moveUp": "Move task up",
+    "moveDown": "Move task down",
+    "delete": "Delete task",
+    "empty": {
+      "title": "No tasks yet",
+      "subtitle": "Add one above to get started"
+    },
+    "markAllDone": "Mark all done",
+    "clearCompleted": "Clear completed"
+  },
+  "Alarms": {
+    "title": "Alarms",
+    "time": "Time",
+    "timeAria": "Alarm time",
+    "name": "Name",
+    "namePlaceholder": "Optional...",
+    "nameAria": "Alarm label",
+    "addAria": "Add alarm",
+    "myAlarms": "My Alarms",
+    "countOf": "{count} of {max}",
+    "am": "AM",
+    "pm": "PM",
+    "disable": "Disable alarm",
+    "enable": "Enable alarm",
+    "delete": "Delete alarm",
+    "empty": {
+      "title": "No alarms set",
+      "subtitle": "Add one above to get notified"
+    }
+  },
+  "Schedule": {
+    "title": "Schedule & Alerts",
+    "now": "Now",
+    "ends": "Ends",
+    "status": "Status",
+    "paused": "Paused",
+    "sound": {
+      "label": "Sound Alarm",
+      "description": "Play a sound when a cycle ends"
+    },
+    "notifications": {
+      "label": "Notifications",
+      "description": "Show desktop notifications on cycle end"
+    }
+  },
+  "Theme": {
+    "trigger": {
+      "aria": "Change theme",
+      "label": "Theme"
+    },
+    "heading": "Theme Mode",
+    "modes": {
+      "light": {
+        "name": "Light",
+        "description": "Light theme"
+      },
+      "dark": {
+        "name": "Dark",
+        "description": "Dark theme"
+      },
+      "oled": {
+        "name": "OLED",
+        "description": "Pure black theme"
+      }
+    }
+  },
+  "Palette": {
+    "trigger": {
+      "aria": "Change color palette",
+      "label": "Color Palette"
+    },
+    "heading": "Color Palette",
+    "unavailable": {
+      "light": "Not available in light mode",
+      "dark": "Not available in dark mode"
+    },
+    "subtitle": {
+      "dark": "Dark theme",
+      "light": "Light theme"
+    }
+  },
+  "SessionDots": {
+    "cycleProgress": "Cycle progress: {completed} of {total} sessions completed"
+  },
+  "LocaleSwitcher": {
+    "aria": "Change language",
+    "label": "Language",
+    "heading": "Language",
+    "en": "English",
+    "es": "Español"
+  }
+}

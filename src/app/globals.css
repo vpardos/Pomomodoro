@@ -177,6 +177,7 @@
   html {
     @apply font-sans;
     scroll-behavior: smooth;
+    scrollbar-gutter: stable;
     transition: background-color 0.4s ease, color 0.3s ease;
   }
   * {

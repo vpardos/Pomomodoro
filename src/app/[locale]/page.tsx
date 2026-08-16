@@ -1,7 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
+import { LocaleSwitcher } from '@/components/locale-switcher';
 import { usePomodoro, Phase } from "@/hooks/usePomodoro";
 import { useNotifications } from "@/hooks/useNotifications";
 import { useTasks } from "@/hooks/useTasks";
@@ -16,14 +18,8 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { PaletteSelector } from "@/components/palette-selector";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Circle, Square, Play, Pause, RotateCcw, SkipForward, Timer } from "lucide-react";
+import { Circle, Square, Play, Pause, RotateCcw, SkipForward } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const phaseLabels: Record<Phase, string> = {
-  work: "Focus",
-  shortBreak: "Short Break",
-  longBreak: "Long Break",
-};
 
 export default function Home() {
   const {
@@ -48,13 +44,16 @@ export default function Home() {
     markAllCompleted,
   } = useTasks();
 
+  const t = useTranslations('Timer');
+  const tNotifications = useTranslations('Notifications');
+
   const handlePhaseChange = useCallback(
     (from: Phase, to: Phase) => {
       if (soundEnabled) playAlarm();
-      if (to === "work") sendNotification("Break is over!", "Break is over!");
-      else sendNotification("Focus session complete!", "Focus session complete! Time for a break.");
+      if (to === "work") sendNotification(tNotifications('breakOver.title'), tNotifications('breakOver.body'));
+      else sendNotification(tNotifications('focusComplete.title'), tNotifications('focusComplete.body'));
     },
-    [soundEnabled, sendNotification],
+    [soundEnabled, sendNotification, tNotifications],
   );
 
   const {
@@ -92,19 +91,30 @@ export default function Home() {
           <Link
             href="/"
             className="flex items-center gap-2.5 text-foreground transition-opacity hover:opacity-80"
-            aria-label="Pomomodoro home"
+            aria-label={t('header.home')}
           >
             <span
               aria-hidden="true"
               className="grid place-items-center size-9 rounded-lg bg-foreground text-background transition-transform duration-200 hover:scale-105"
             >
-              <Timer className="size-4" />
+              <svg
+                className="size-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M3 5.5L5 3.5M21 5.5L19 3.5M9 12.5L11 14.5L15 10.5M20 12.5C20 16.9183 16.4183 20.5 12 20.5C7.58172 20.5 4 16.9183 4 12.5C4 8.08172 7.58172 4.5 12 4.5C16.4183 4.5 20 8.08172 20 12.5Z" />
+              </svg>
             </span>
             <span className="text-lg sm:text-xl font-semibold tracking-tight">
               Pomomodoro
             </span>
           </Link>
-          <nav className="flex items-center gap-1.5 sm:gap-2" aria-label="App settings">
+          <nav className="flex items-center gap-1.5 sm:gap-2" aria-label={t('header.settings')}>
+            <LocaleSwitcher />
             <ThemeToggle />
             <PaletteSelector />
             <SettingsDialog settings={settings} onUpdateSettings={updateSettings} />
@@ -121,23 +131,23 @@ export default function Home() {
               <CardHeader className="relative">
                 <CardTitle className="flex flex-col items-center gap-1.5 text-center">
                   <span className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                    {phaseLabels[phase]}
+                    {t(`phase.${phase}`)}
                   </span>
                   <span className="text-xs font-normal text-muted-foreground tabular-nums">
-                    Session {Math.min(completedCycles + 1, settings.longBreakInterval)} of {settings.longBreakInterval}
+                    {t('sessionOf', { current: Math.min(completedCycles + 1, settings.longBreakInterval), total: settings.longBreakInterval })}
                   </span>
                 </CardTitle>
                 {/* Progress style switch */}
                 <div
                   className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center rounded-md border border-border/60 bg-background p-0.5"
                   role="group"
-                  aria-label="Progress style"
+                  aria-label={t('progressStyle.label')}
                 >
                   <button
                     type="button"
                     onClick={() => setProgressStyle("circular")}
                     aria-pressed={progressStyle === "circular"}
-                    aria-label="Circular progress"
+                    aria-label={t('progressStyle.circular')}
                     className={cn(
                       "grid place-items-center size-7 rounded-sm transition-all duration-200 hover:scale-110",
                       progressStyle === "circular"
@@ -154,7 +164,7 @@ export default function Home() {
                     type="button"
                     onClick={() => setProgressStyle("linear")}
                     aria-pressed={progressStyle === "linear"}
-                    aria-label="Linear progress"
+                    aria-label={t('progressStyle.linear')}
                     className={cn(
                       "grid place-items-center size-7 rounded-sm transition-all duration-200 hover:scale-110",
                       progressStyle === "linear"
@@ -186,7 +196,7 @@ export default function Home() {
                     variant="ghost"
                     size="icon"
                     onClick={reset}
-                    aria-label="Reset timer"
+                    aria-label={t('controls.reset')}
                     className="text-muted-foreground hover:text-foreground"
                   >
                     <RotateCcw className="h-5 w-5" />
@@ -196,10 +206,10 @@ export default function Home() {
                       size="lg"
                       onClick={pause}
                       className="w-40 sm:w-44 font-semibold"
-                      aria-label="Pause timer"
+                      aria-label={t('controls.pause')}
                     >
                       <Pause className="h-4 w-4 mr-2" fill="currentColor" />
-                      Pause
+                      {t('controls.pauseLabel')}
                     </Button>
                   ) : (
                     <Button
@@ -207,17 +217,17 @@ export default function Home() {
                       onClick={play}
                       disabled={timeLeft === 0}
                       className="w-40 sm:w-44 font-semibold"
-                      aria-label="Start timer"
+                      aria-label={t('controls.start')}
                     >
                       <Play className="h-4 w-4 mr-2" fill="currentColor" />
-                      Play
+                      {t('controls.startLabel')}
                     </Button>
                   )}
                   <Button
                     variant="ghost"
                     size="icon"
                     onClick={skip}
-                    aria-label="Skip to next phase"
+                    aria-label={t('controls.skip')}
                     className="text-muted-foreground hover:text-foreground"
                   >
                     <SkipForward className="h-5 w-5" />
@@ -268,11 +278,18 @@ export default function Home() {
       {/* FOOTER */}
       <footer className="border-t border-border/60 bg-background">
         <div className="container mx-auto px-4 sm:px-6 py-5 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-xs text-muted-foreground">
-          <span>Pomomodoro</span>
-          <span aria-hidden="true">·</span>
-          <span>created by</span>
           <a
             href="https://github.com/vpardos/Pomomodoro"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-foreground/80 hover:text-foreground transition-colors hover:underline underline-offset-4"
+          >
+            Pomomodoro
+          </a>
+          <span aria-hidden="true">·</span>
+          <span>{t('footer.createdBy')}</span>
+          <a
+            href="https://github.com/vpardos"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 font-medium text-foreground/80 hover:text-foreground transition-colors hover:underline underline-offset-4"
