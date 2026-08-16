@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 import { Phase } from '@/hooks/usePomodoro';
 
@@ -15,6 +16,8 @@ export const SessionDots = React.memo(function SessionDots({
   longBreakInterval,
   phase,
 }: SessionDotsProps) {
+  const t = useTranslations('SessionDots');
+
   const phaseAccent = {
     work: 'var(--accent-work)',
     shortBreak: 'var(--accent-break)',
@@ -42,7 +45,7 @@ export const SessionDots = React.memo(function SessionDots({
     <div
       className="flex items-center justify-center gap-2"
       role="presentation"
-      aria-label={`Cycle progress: ${completedCycles} of ${total} sessions completed`}
+      aria-label={t('cycleProgress', { completed: completedCycles, total })}
     >
       {Array.from({ length: total }).map((_, i) => {
         const isCompleted = phase === 'work' && i < currentIndex;

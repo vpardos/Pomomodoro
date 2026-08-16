@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 
 export type Phase = 'work' | 'shortBreak' | 'longBreak';
 
@@ -81,6 +82,8 @@ export function usePomodoro(onPhaseChange?: (from: Phase, to: Phase) => void) {
   const [timeLeft, setTimeLeft] = useState(DEFAULT_SETTINGS.workDuration);
   const [isRunning, setIsRunning] = useState(false);
   const [completedCycles, setCompletedCycles] = useState(0);
+
+  const t = useTranslations('Timer');
 
   const rafRef = useRef<number | null>(null);
   const lastTickRef = useRef<number>(0);
@@ -164,9 +167,9 @@ export function usePomodoro(onPhaseChange?: (from: Phase, to: Phase) => void) {
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
     const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    const phaseStr = phase === 'work' ? 'Focus' : phase === 'shortBreak' ? 'Short Break' : 'Long Break';
-    document.title = `(${timeStr}) ${phaseStr} | Pomomodoro`;
-  }, [timeLeft, phase]);
+    const phaseStr = t(`phase.${phase}`);
+    document.title = t('docTitle', { time: timeStr, phase: phaseStr });
+  }, [timeLeft, phase, t]);
 
   const play = useCallback(() => {
     if (stateRef.current.timeLeft > 0) {

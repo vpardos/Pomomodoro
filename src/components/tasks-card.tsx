@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useSyncExternalStore } from "react";
+import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle, CardAction } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,6 +41,7 @@ export function TasksCard({
   onEditTask,
   onMarkAllCompleted,
 }: TasksCardProps) {
+  const t = useTranslations("Tasks");
   const mounted = useMounted();
   const [newTaskText, setNewTaskText] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -98,7 +100,7 @@ export function TasksCard({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <ListTodo className="h-4 w-4 text-muted-foreground" />
-          <span>Tasks</span>
+          <span>{t("title")}</span>
         </CardTitle>
         {mounted && totalCount > 0 && (
           <CardAction>
@@ -115,17 +117,17 @@ export function TasksCard({
             value={newTaskText}
             onChange={(e) => setNewTaskText(e.target.value)}
             onKeyDown={handleAddKeyDown}
-            placeholder={isMaxTasks ? "Max tasks reached" : "Add a task…"}
+            placeholder={isMaxTasks ? t("placeholder.max") : t("placeholder.default")}
             disabled={isMaxTasks}
             className="text-sm border-border focus-visible:border-primary focus-visible:shadow-md focus-visible:shadow-primary/10 transition-all"
-            aria-label="New task"
+            aria-label={t("newTaskAria")}
           />
           <Button
             size="icon"
             onClick={handleAddTask}
             disabled={!newTaskText.trim() || isMaxTasks}
             className="shrink-0"
-            aria-label="Add task"
+            aria-label={t("addAria")}
           >
             <Plus className="h-4 w-4" />
           </Button>
@@ -146,7 +148,7 @@ export function TasksCard({
                   <button
                     type="button"
                     onClick={() => onToggleTask(task.id)}
-                    aria-label={task.completed ? "Mark task incomplete" : "Mark task complete"}
+                    aria-label={task.completed ? t("markIncomplete") : t("markComplete")}
                     aria-pressed={task.completed}
                     className={cn(
                       "shrink-0 grid place-items-center size-5 rounded-full border transition-all duration-300",
@@ -188,7 +190,7 @@ export function TasksCard({
                       onClick={() => onMoveTask(task.id, "up")}
                       disabled={index === 0}
                       className="text-muted-foreground hover:text-foreground hover:scale-110 transition-transform duration-200"
-                      aria-label="Move task up"
+                      aria-label={t("moveUp")}
                     >
                       <ChevronUp className="h-3.5 w-3.5" />
                     </Button>
@@ -198,7 +200,7 @@ export function TasksCard({
                       onClick={() => onMoveTask(task.id, "down")}
                       disabled={index === tasks.length - 1}
                       className="text-muted-foreground hover:text-foreground hover:scale-110 transition-transform duration-200"
-                      aria-label="Move task down"
+                      aria-label={t("moveDown")}
                     >
                       <ChevronDown className="h-3.5 w-3.5" />
                     </Button>
@@ -207,7 +209,7 @@ export function TasksCard({
                       size="icon-xs"
                       onClick={() => onRemoveTask(task.id)}
                       className="text-muted-foreground hover:text-destructive hover:scale-110 transition-transform duration-200"
-                      aria-label="Delete task"
+                      aria-label={t("delete")}
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </Button>
@@ -219,8 +221,8 @@ export function TasksCard({
             <div className="flex-1 grid place-items-center py-8 text-center animate-fade-in-up">
               <div className="flex flex-col items-center gap-2 text-muted-foreground">
                 <ListTodo className="h-6 w-6 opacity-40" />
-                <p className="text-sm">No tasks yet</p>
-                <p className="text-xs">Add one above to get started</p>
+                <p className="text-sm">{t("empty.title")}</p>
+                <p className="text-xs">{t("empty.subtitle")}</p>
               </div>
             </div>
           ) : null}
@@ -235,7 +237,7 @@ export function TasksCard({
                 onClick={onMarkAllCompleted}
                 className="flex-1 text-muted-foreground hover:text-foreground"
               >
-                Mark all done
+                {t("markAllDone")}
               </Button>
             )}
             {completedCount > 0 && (
@@ -245,7 +247,7 @@ export function TasksCard({
                 onClick={onClearCompleted}
                 className="flex-1 text-muted-foreground hover:text-foreground"
               >
-                Clear completed
+                {t("clearCompleted")}
               </Button>
             )}
           </div>

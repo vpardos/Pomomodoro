@@ -1,6 +1,7 @@
 'use client';
 
 import { useThemeContext } from '@/components/theme-provider';
+import { useTranslations } from 'next-intl';
 import { flavors } from '@catppuccin/palette';
 import { PaletteFlavor } from '@/hooks/usePalette';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -25,6 +26,7 @@ const flavorInfo: Record<PaletteFlavor, { name: string; emoji: string; dark: boo
 };
 
 export function PaletteSelector() {
+  const t = useTranslations('Palette');
   const { flavor, setPaletteFlavor, mode } = useThemeContext();
 
   const isFlavorAvailable = (f: PaletteFlavor) => {
@@ -36,8 +38,8 @@ export function PaletteSelector() {
   };
 
   const getUnavailableMessage = (f: PaletteFlavor) => {
-    if (mode === 'light' && f !== 'latte' && f !== 'nord-snow' && f !== 'solarized-light') return 'Not available in light mode';
-    if ((mode === 'dark' || mode === 'oled') && (f === 'latte' || f === 'nord-snow' || f === 'solarized-light')) return 'Not available in dark mode';
+    if (mode === 'light' && f !== 'latte' && f !== 'nord-snow' && f !== 'solarized-light') return t('unavailable.light');
+    if ((mode === 'dark' || mode === 'oled') && (f === 'latte' || f === 'nord-snow' || f === 'solarized-light')) return t('unavailable.dark');
     return '';
   };
 
@@ -49,16 +51,16 @@ export function PaletteSelector() {
             variant="outline"
             size="sm"
             className="gap-2"
-            aria-label="Change color palette"
+            aria-label={t('trigger.aria')}
           />
         }
       >
         <Palette className="size-4" />
-        <span className="hidden min-[1024px]:inline">Color Palette</span>
+        <span className="hidden min-[1024px]:inline">{t('trigger.label')}</span>
       </PopoverTrigger>
       <PopoverContent className="w-64 p-0 gap-0 overflow-hidden flex flex-col" align="end">
         <div className="px-3 py-2 border-b border-border/40 shrink-0">
-          <h3 className="text-sm font-semibold text-foreground">Color Palette</h3>
+          <h3 className="text-sm font-semibold text-foreground">{t('heading')}</h3>
         </div>
         <div className="flex flex-col gap-0 max-h-[240px] overflow-y-auto pb-2 px-3">
           {([...Object.keys(flavorInfo) as PaletteFlavor[]]).sort((a, b) => {
@@ -105,7 +107,7 @@ export function PaletteSelector() {
                       {info.name}
                     </span>
                     <span className="text-xs text-muted-foreground">
-                      {unavailableMessage || (info.dark ? 'Dark theme' : 'Light theme')}
+                      {unavailableMessage || (info.dark ? t('subtitle.dark') : t('subtitle.light'))}
                     </span>
                   </div>
                 </button>

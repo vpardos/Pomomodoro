@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Settings } from 'lucide-react';
 import {
   Dialog,
@@ -21,6 +22,7 @@ interface SettingsDialogProps {
 }
 
 export function SettingsDialog({ settings, onUpdateSettings }: SettingsDialogProps) {
+  const t = useTranslations('Settings');
   const [open, setOpen] = useState(false);
   const [workMinutes, setWorkMinutes] = useState(Math.floor(settings.workDuration / 60));
   const [shortBreakMinutes, setShortBreakMinutes] = useState(Math.floor(settings.shortBreakDuration / 60));
@@ -48,25 +50,25 @@ export function SettingsDialog({ settings, onUpdateSettings }: SettingsDialogPro
             variant="outline"
             size="sm"
             className="gap-2"
-            aria-label="Pomodoro settings"
+            aria-label={t('trigger.aria')}
           />
         }
       >
         <Settings className="size-4" />
-        <span className="hidden min-[1024px]:inline">Settings</span>
+        <span className="hidden min-[1024px]:inline">{t('trigger.label')}</span>
       </DialogTrigger>
       <DialogContent className="min-[1024px]:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Timer Settings</DialogTitle>
+          <DialogTitle>{t('title')}</DialogTitle>
         </DialogHeader>
         <div className="grid gap-6 py-4">
           <div className="flex items-center justify-between gap-4 rounded-lg border border-border/60 bg-muted/30 px-3 py-2.5">
             <div className="grid gap-0.5">
               <Label htmlFor="animations" className="cursor-pointer">
-                Animations
+                {t('animations.label')}
               </Label>
               <p className="text-xs text-muted-foreground">
-                Disable to reduce GPU usage and avoid motion.
+                {t('animations.description')}
               </p>
             </div>
             <Switch
@@ -74,11 +76,11 @@ export function SettingsDialog({ settings, onUpdateSettings }: SettingsDialogPro
               size="sm"
               checked={animationsEnabled}
               onCheckedChange={setAnimationsEnabled}
-              aria-label="Enable animations"
+              aria-label={t('animations.aria')}
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="work">Focus Duration (minutes)</Label>
+            <Label htmlFor="work">{t('focusDuration')}</Label>
             <Input
               id="work"
               type="number"
@@ -90,7 +92,7 @@ export function SettingsDialog({ settings, onUpdateSettings }: SettingsDialogPro
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="shortBreak">Short Break (minutes)</Label>
+            <Label htmlFor="shortBreak">{t('shortBreak')}</Label>
             <Input
               id="shortBreak"
               type="number"
@@ -102,7 +104,7 @@ export function SettingsDialog({ settings, onUpdateSettings }: SettingsDialogPro
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="longBreak">Long Break (minutes)</Label>
+            <Label htmlFor="longBreak">{t('longBreak')}</Label>
             <Input
               id="longBreak"
               type="number"
@@ -114,7 +116,7 @@ export function SettingsDialog({ settings, onUpdateSettings }: SettingsDialogPro
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="interval">Long Break Interval (cycles)</Label>
+            <Label htmlFor="interval">{t('longBreakInterval')}</Label>
             <Input
               id="interval"
               type="number"
@@ -128,9 +130,9 @@ export function SettingsDialog({ settings, onUpdateSettings }: SettingsDialogPro
         </div>
         <div className="flex justify-end gap-2">
           <Button variant="outline" onClick={() => setOpen(false)}>
-            Cancel
+            {t('cancel')}
           </Button>
-          <Button onClick={handleSave}>Save</Button>
+          <Button onClick={handleSave}>{t('save')}</Button>
         </div>
       </DialogContent>
     </Dialog>

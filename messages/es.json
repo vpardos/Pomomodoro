@@ -1,0 +1,166 @@
+{
+  "Metadata": {
+    "title": "Pomomodoro - Temporizador Pomodoro",
+    "description": "Un temporizador Pomodoro con sesiones de trabajo y descanso personalizables, alarmas, notificaciones y múltiples temas de color."
+  },
+  "Timer": {
+    "phase": {
+      "work": "Concentración",
+      "shortBreak": "Descanso corto",
+      "longBreak": "Descanso largo"
+    },
+    "sessionOf": "Sesión {current} de {total}",
+    "docTitle": "({time}) {phase} | Pomomodoro",
+    "controls": {
+      "reset": "Reiniciar temporizador",
+      "pause": "Pausar temporizador",
+      "pauseLabel": "Pausar",
+      "start": "Iniciar temporizador",
+      "startLabel": "Iniciar",
+      "skip": "Saltar a la siguiente fase"
+    },
+    "progressStyle": {
+      "label": "Estilo de progreso",
+      "circular": "Progreso circular",
+      "linear": "Progreso lineal"
+    },
+    "header": {
+      "home": "Inicio",
+      "settings": "Ajustes"
+    },
+    "footer": {
+      "createdBy": "creado por"
+    }
+  },
+  "Notifications": {
+    "breakOver": {
+      "title": "El descanso terminó!",
+      "body": "El descanso terminó!"
+    },
+    "focusComplete": {
+      "title": "Sesión de concentración completada!",
+      "body": "Sesión de concentración completada! Hora de un descanso."
+    },
+    "alarmFallback": "Alarma",
+    "alarmsCount": "{count} alarmas"
+  },
+  "Settings": {
+    "trigger": {
+      "aria": "Ajustes de Pomomodoro",
+      "label": "Ajustes"
+    },
+    "title": "Ajustes",
+    "animations": {
+      "label": "Animaciones",
+      "description": "Desactivar para reducir el movimiento.",
+      "aria": "Activar animaciones"
+    },
+    "focusDuration": "Concentración (minutos)",
+    "shortBreak": "Descanso corto (minutos)",
+    "longBreak": "Descanso largo (minutos)",
+    "longBreakInterval": "Intervalo de descanso largo (ciclos)",
+    "cancel": "Cancelar",
+    "save": "Guardar"
+  },
+  "Tasks": {
+    "title": "Tareas",
+    "placeholder": {
+      "default": "Añade una tarea…",
+      "max": "Máximo de tareas alcanzado"
+    },
+    "newTaskAria": "Nueva tarea",
+    "addAria": "Añadir tarea",
+    "markIncomplete": "Marcar tarea como incompleta",
+    "markComplete": "Marcar tarea como completada",
+    "moveUp": "Subir tarea",
+    "moveDown": "Bajar tarea",
+    "delete": "Eliminar tarea",
+    "empty": {
+      "title": "Aún no hay tareas",
+      "subtitle": "Añade una arriba para empezar"
+    },
+    "markAllDone": "Marcar todas como hechas",
+    "clearCompleted": "Borrar completadas"
+  },
+  "Alarms": {
+    "title": "Alarmas",
+    "time": "Hora",
+    "timeAria": "Hora de la alarma",
+    "name": "Nombre",
+    "namePlaceholder": "Opcional...",
+    "nameAria": "Etiqueta de la alarma",
+    "addAria": "Añadir alarma",
+    "myAlarms": "Mis alarmas",
+    "countOf": "{count} de {max}",
+    "am": "a. m.",
+    "pm": "p. m.",
+    "disable": "Desactivar alarma",
+    "enable": "Activar alarma",
+    "delete": "Eliminar alarma",
+    "empty": {
+      "title": "No hay alarmas configuradas",
+      "subtitle": "Añade una arriba para recibir notificaciones"
+    }
+  },
+  "Schedule": {
+    "title": "Horario y alertas",
+    "now": "Ahora",
+    "ends": "Termina",
+    "status": "Estado",
+    "paused": "En pausa",
+    "sound": {
+      "label": "Alarma sonora",
+      "description": "Reproduce un sonido al terminar un ciclo"
+    },
+    "notifications": {
+      "label": "Notificaciones",
+      "description": "Mostrar notificaciones de escritorio al terminar un ciclo"
+    }
+  },
+  "Theme": {
+    "trigger": {
+      "aria": "Cambiar tema",
+      "label": "Tema"
+    },
+    "heading": "Modo del tema",
+    "modes": {
+      "light": {
+        "name": "Claro",
+        "description": "Tema claro"
+      },
+      "dark": {
+        "name": "Oscuro",
+        "description": "Tema oscuro"
+      },
+      "oled": {
+        "name": "OLED",
+        "description": "Tema negro puro"
+      }
+    }
+  },
+  "Palette": {
+    "trigger": {
+      "aria": "Cambiar paleta de colores",
+      "label": "Colores"
+    },
+    "heading": "Paleta de colores",
+    "unavailable": {
+      "light": "No disponible en modo claro",
+      "dark": "No disponible en modo oscuro"
+    },
+    "subtitle": {
+      "dark": "Tema oscuro",
+      "light": "Tema claro"
+    }
+  },
+  "SessionDots": {
+    "cycleProgress": "Progreso del ciclo: {completed} de {total} sesiones completadas"
+  },
+  "LocaleSwitcher": {
+    "aria": "Cambiar idioma",
+    "label": "Idioma",
+    "heading": "Idioma",
+    "en": "English",
+    "es": "Español"
+  }
+}

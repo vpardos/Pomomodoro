@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useTranslations } from 'next-intl';
 
 const SOUND_KEY = "pomodoro-sound-enabled";
 const NOTIFICATION_KEY = "pomodoro-notifications-enabled";
@@ -69,6 +70,8 @@ export function useNotifications() {
     useState<NotificationPermission>(getInitialPermission);
   const [alarms, setAlarms] = useState<Alarm[]>(() => loadAlarms());
   const lastCheckedMinuteRef = useRef<string>("");
+
+  const t = useTranslations('Notifications');
 
   useEffect(() => {
     const initialSound = loadBool(SOUND_KEY, true);
@@ -161,16 +164,16 @@ export function useNotifications() {
         if (soundEnabled) {
           import("@/lib/alarm").then(({ playAlarm }) => playAlarm());
         }
-        const labels = matchingAlarms.map((a) => a.label || "Alarm");
+        const labels = matchingAlarms.map((a) => a.label || t('alarmFallback'));
         const title =
-          labels.length === 1 ? labels[0] : `${labels.length} alarms`;
+          labels.length === 1 ? labels[0] : t('alarmsCount', { count: labels.length });
         sendNotification(title, title);
       }
     };
 
     const interval = setInterval(checkAlarms, 1000);
     return () => clearInterval(interval);
-  }, [alarms, sendNotification, soundEnabled]);
+  }, [alarms, sendNotification, soundEnabled, t]);
 
   return {
     soundEnabled,

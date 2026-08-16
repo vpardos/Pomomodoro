@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useSyncExternalStore } from "react";
+import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -38,6 +39,7 @@ export function ScheduleCard({
   onToggleSound,
   onToggleNotifications,
 }: ScheduleCardProps) {
+  const t = useTranslations("Schedule");
   const mounted = useMounted();
   const [now, setNow] = useState(new Date());
 
@@ -53,7 +55,7 @@ export function ScheduleCard({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Clock className="h-4 w-4 text-muted-foreground" />
-          <span>Schedule & Alerts</span>
+          <span>{t("title")}</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col gap-6">
@@ -61,7 +63,7 @@ export function ScheduleCard({
         <div className="grid grid-cols-2 gap-6">
           <div className="flex flex-col gap-1">
             <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
-              Now
+              {t("now")}
             </span>
             <span className="text-3xl font-mono font-semibold text-foreground tabular-nums leading-none">
               {mounted ? formatTime(now) : "--:--"}
@@ -69,7 +71,7 @@ export function ScheduleCard({
           </div>
           <div className="flex flex-col gap-1 items-end text-right">
             <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
-              {isRunning ? "Ends" : "Status"}
+              {isRunning ? t("ends") : t("status")}
             </span>
             {isRunning ? (
               <span className="text-3xl font-mono font-semibold text-foreground tabular-nums leading-none">
@@ -77,7 +79,7 @@ export function ScheduleCard({
               </span>
             ) : (
               <span className="text-3xl font-medium text-muted-foreground leading-none">
-                Paused
+                {t("paused")}
               </span>
             )}
           </div>
@@ -93,10 +95,10 @@ export function ScheduleCard({
                 htmlFor="sound-toggle"
                 className="text-sm font-medium cursor-pointer"
               >
-                Sound Alarm
+                {t("sound.label")}
               </Label>
               <span className="text-xs text-muted-foreground">
-                Play a chime when a cycle ends
+                {t("sound.description")}
               </span>
             </div>
             <Switch
@@ -112,10 +114,10 @@ export function ScheduleCard({
                 htmlFor="notification-toggle"
                 className="text-sm font-medium cursor-pointer"
               >
-                Notifications
+                {t("notifications.label")}
               </Label>
               <span className="text-xs text-muted-foreground">
-                Show desktop notifications on cycle end
+                {t("notifications.description")}
               </span>
             </div>
             <Switch

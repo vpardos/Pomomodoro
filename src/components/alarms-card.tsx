@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useId } from "react";
+import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
@@ -17,9 +18,9 @@ interface AlarmsCardProps {
   onToggleAlarm: (id: string) => void;
 }
 
-function formatTime24to12(time24: string): string {
+function formatTime24to12(time24: string, am: string, pm: string): string {
   const [hours, minutes] = time24.split(":").map(Number);
-  const period = hours >= 12 ? "PM" : "AM";
+  const period = hours >= 12 ? pm : am;
   const hours12 = hours % 12 || 12;
   return `${hours12}:${minutes.toString().padStart(2, "0")} ${period}`;
 }
@@ -30,6 +31,7 @@ export function AlarmsCard({
   onRemoveAlarm,
   onToggleAlarm,
 }: AlarmsCardProps) {
+  const t = useTranslations("Alarms");
   const timeId = useId();
   const labelId = useId();
   const [time, setTime] = useState("12:00");
@@ -48,7 +50,7 @@ export function AlarmsCard({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Bell className="h-4 w-4 text-muted-foreground" />
-          <span>Alarms</span>
+          <span>{t("title")}</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col gap-5">
@@ -57,7 +59,7 @@ export function AlarmsCard({
           <div className="grid grid-cols-[auto_1fr_auto] items-end gap-2">
             <div className="flex flex-col gap-1.5">
               <Label htmlFor={timeId} className="text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
-                Time
+                {t("time")}
               </Label>
               <input
                 id={timeId}
@@ -68,21 +70,21 @@ export function AlarmsCard({
                   "h-8 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm dark:bg-input/30",
                   "w-[120px] font-mono tabular-nums border-border focus-visible:border-primary focus-visible:shadow-md focus-visible:shadow-primary/10 transition-all"
                 )}
-                aria-label="Alarm time"
+                aria-label={t("timeAria")}
               />
             </div>
             <div className="flex flex-col gap-1.5">
               <Label htmlFor={labelId} className="text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
-                Name
+                {t("name")}
               </Label>
               <Input
                 id={labelId}
                 type="text"
                 value={label}
                 onChange={(e) => setLabel(e.target.value)}
-                placeholder="Optional"
+                placeholder={t("namePlaceholder")}
                 className="text-sm border-border focus-visible:border-primary focus-visible:shadow-md focus-visible:shadow-primary/10 transition-all"
-                aria-label="Alarm label"
+                aria-label={t("nameAria")}
               />
             </div>
             <Button
@@ -90,7 +92,7 @@ export function AlarmsCard({
               onClick={handleAddAlarm}
               disabled={isMaxAlarms || !time}
               className="shrink-0 self-end"
-              aria-label="Add alarm"
+              aria-label={t("addAria")}
             >
               <Plus className="h-4 w-4" />
             </Button>
@@ -102,9 +104,9 @@ export function AlarmsCard({
         {/* My alarms list */}
         <div className="flex flex-col gap-3 flex-1 min-h-0">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-medium text-foreground">My Alarms</h3>
+            <h3 className="text-sm font-medium text-foreground">{t("myAlarms")}</h3>
             <span className="text-xs text-muted-foreground tabular-nums">
-              {alarms.length} of 2
+              {t("countOf", { count: alarms.length, max: 2 })}
             </span>
           </div>
 
@@ -124,7 +126,7 @@ export function AlarmsCard({
                         alarm.enabled ? "text-foreground" : "text-muted-foreground"
                       }`}
                     >
-                      {formatTime24to12(alarm.time)}
+                      {formatTime24to12(alarm.time, t("am"), t("pm"))}
                     </span>
                     {alarm.label && (
                       <span className="text-xs text-muted-foreground truncate">
@@ -136,14 +138,14 @@ export function AlarmsCard({
                     <Switch
                       checked={alarm.enabled}
                       onCheckedChange={() => onToggleAlarm(alarm.id)}
-                      aria-label={alarm.enabled ? "Disable alarm" : "Enable alarm"}
+                      aria-label={alarm.enabled ? t("disable") : t("enable")}
                     />
                     <Button
                       variant="ghost"
                       size="icon-xs"
                       onClick={() => onRemoveAlarm(alarm.id)}
                       className="text-muted-foreground hover:text-destructive hover:rotate-12 hover:scale-110 transition-transform duration-200"
-                      aria-label="Delete alarm"
+                      aria-label={t("delete")}
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </Button>
@@ -155,8 +157,8 @@ export function AlarmsCard({
             <div className="flex-1 grid place-items-center py-4 text-center animate-fade-in-up">
               <div className="flex flex-col items-center gap-2 text-muted-foreground">
                 <Bell className="h-6 w-6 opacity-40" />
-                <p className="text-sm">No alarms set</p>
-                <p className="text-xs">Add one above to get notified</p>
+                <p className="text-sm">{t("empty.title")}</p>
+                <p className="text-xs">{t("empty.subtitle")}</p>
               </div>
             </div>
           )}
