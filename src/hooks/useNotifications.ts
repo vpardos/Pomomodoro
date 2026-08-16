@@ -63,24 +63,21 @@ function getInitialPermission(): NotificationPermission {
 }
 
 export function useNotifications() {
-  const [soundEnabled, setSoundEnabled] = useState(() =>
-    loadBool(SOUND_KEY, true),
-  );
-  const [notificationsEnabled, setNotificationsEnabled] = useState(() =>
-    loadBool(NOTIFICATION_KEY, false),
-  );
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [permission, setPermission] =
     useState<NotificationPermission>(getInitialPermission);
   const [alarms, setAlarms] = useState<Alarm[]>(() => loadAlarms());
   const lastCheckedMinuteRef = useRef<string>("");
 
   useEffect(() => {
-    saveBool(SOUND_KEY, soundEnabled);
-  }, [soundEnabled]);
-
-  useEffect(() => {
-    saveBool(NOTIFICATION_KEY, notificationsEnabled);
-  }, [notificationsEnabled]);
+    const initialSound = loadBool(SOUND_KEY, true);
+    const initialNotifications = loadBool(NOTIFICATION_KEY, false);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSoundEnabled(initialSound);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setNotificationsEnabled(initialNotifications);
+  }, []);
 
   useEffect(() => {
     saveAlarms(alarms);
@@ -102,15 +99,19 @@ export function useNotifications() {
   }, []);
 
   const toggleSound = useCallback(() => {
-    setSoundEnabled((prev) => !prev);
-  }, []);
+    const next = !soundEnabled;
+    setSoundEnabled(next);
+    saveBool(SOUND_KEY, next);
+  }, [soundEnabled]);
 
   const toggleNotifications = useCallback(async () => {
     if (!notificationsEnabled) {
       const granted = await requestPermission();
       if (!granted) return;
     }
-    setNotificationsEnabled((prev) => !prev);
+    const next = !notificationsEnabled;
+    setNotificationsEnabled(next);
+    saveBool(NOTIFICATION_KEY, next);
   }, [notificationsEnabled, requestPermission]);
 
   const sendNotification = useCallback(
