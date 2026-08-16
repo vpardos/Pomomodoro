@@ -71,8 +71,7 @@ export const SessionDots = React.memo(function SessionDots({
                 : isCurrent
                   ? {
                       opacity: 1,
-                      backgroundColor: 'transparent',
-                      boxShadow: `inset 0 0 0 2px ${phaseAccent}`,
+                      backgroundColor: phaseAccent,
                     }
                   : { opacity: 0.4 }
             }
